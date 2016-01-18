@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhong.mapper.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.zhong.pojo.Product" >
+    <id column="productId" property="productid" jdbcType="INTEGER" />
+    <result column="productName" property="productname" jdbcType="VARCHAR" />
+    <result column="productPrice" property="productprice" jdbcType="INTEGER" />
+    <result column="singlePrice" property="singleprice" jdbcType="INTEGER" />
+    <result column="productLimit" property="productlimit" jdbcType="INTEGER" />
+    <result column="productRealPrice" property="productrealprice" jdbcType="VARCHAR" />
+    <result column="productTitle" property="producttitle" jdbcType="VARCHAR" />
+    <result column="productType" property="producttype" jdbcType="INTEGER" />
+    <result column="productBrand" property="productbrand" jdbcType="INTEGER" />
+    <result column="headImage" property="headimage" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="style" property="style" jdbcType="VARCHAR" />
+    <result column="winner" property="winner" jdbcType="VARCHAR" />
+    <result column="Attribute_71" property="attribute71" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zhong.pojo.Product" extends="BaseResultMap" >
+    <result column="productDetail" property="productdetail" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    productId, productName, productPrice, singlePrice, productLimit, productRealPrice, 
+    productTitle, productType, productBrand, headImage, status, style, winner, Attribute_71
+  </sql>
+  <sql id="Blob_Column_List" >
+    productDetail
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from product
+    where productId = #{productid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product
+    where productId = #{productid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhong.pojo.Product" >
+    insert into product (productId, productName, productPrice, 
+      singlePrice, productLimit, productRealPrice, 
+      productTitle, productType, productBrand, 
+      headImage, status, style, 
+      winner, Attribute_71, productDetail
+      )
+    values (#{productid,jdbcType=INTEGER}, #{productname,jdbcType=VARCHAR}, #{productprice,jdbcType=INTEGER}, 
+      #{singleprice,jdbcType=INTEGER}, #{productlimit,jdbcType=INTEGER}, #{productrealprice,jdbcType=VARCHAR}, 
+      #{producttitle,jdbcType=VARCHAR}, #{producttype,jdbcType=INTEGER}, #{productbrand,jdbcType=INTEGER}, 
+      #{headimage,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{style,jdbcType=VARCHAR}, 
+      #{winner,jdbcType=VARCHAR}, #{attribute71,jdbcType=VARCHAR}, #{productdetail,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhong.pojo.Product" >
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productid != null" >
+        productId,
+      </if>
+      <if test="productname != null" >
+        productName,
+      </if>
+      <if test="productprice != null" >
+        productPrice,
+      </if>
+      <if test="singleprice != null" >
+        singlePrice,
+      </if>
+      <if test="productlimit != null" >
+        productLimit,
+      </if>
+      <if test="productrealprice != null" >
+        productRealPrice,
+      </if>
+      <if test="producttitle != null" >
+        productTitle,
+      </if>
+      <if test="producttype != null" >
+        productType,
+      </if>
+      <if test="productbrand != null" >
+        productBrand,
+      </if>
+      <if test="headimage != null" >
+        headImage,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="style != null" >
+        style,
+      </if>
+      <if test="winner != null" >
+        winner,
+      </if>
+      <if test="attribute71 != null" >
+        Attribute_71,
+      </if>
+      <if test="productdetail != null" >
+        productDetail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productid != null" >
+        #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null" >
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="productprice != null" >
+        #{productprice,jdbcType=INTEGER},
+      </if>
+      <if test="singleprice != null" >
+        #{singleprice,jdbcType=INTEGER},
+      </if>
+      <if test="productlimit != null" >
+        #{productlimit,jdbcType=INTEGER},
+      </if>
+      <if test="productrealprice != null" >
+        #{productrealprice,jdbcType=VARCHAR},
+      </if>
+      <if test="producttitle != null" >
+        #{producttitle,jdbcType=VARCHAR},
+      </if>
+      <if test="producttype != null" >
+        #{producttype,jdbcType=INTEGER},
+      </if>
+      <if test="productbrand != null" >
+        #{productbrand,jdbcType=INTEGER},
+      </if>
+      <if test="headimage != null" >
+        #{headimage,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="style != null" >
+        #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="winner != null" >
+        #{winner,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute71 != null" >
+        #{attribute71,jdbcType=VARCHAR},
+      </if>
+      <if test="productdetail != null" >
+        #{productdetail,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhong.pojo.Product" >
+    update product
+    <set >
+      <if test="productname != null" >
+        productName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="productprice != null" >
+        productPrice = #{productprice,jdbcType=INTEGER},
+      </if>
+      <if test="singleprice != null" >
+        singlePrice = #{singleprice,jdbcType=INTEGER},
+      </if>
+      <if test="productlimit != null" >
+        productLimit = #{productlimit,jdbcType=INTEGER},
+      </if>
+      <if test="productrealprice != null" >
+        productRealPrice = #{productrealprice,jdbcType=VARCHAR},
+      </if>
+      <if test="producttitle != null" >
+        productTitle = #{producttitle,jdbcType=VARCHAR},
+      </if>
+      <if test="producttype != null" >
+        productType = #{producttype,jdbcType=INTEGER},
+      </if>
+      <if test="productbrand != null" >
+        productBrand = #{productbrand,jdbcType=INTEGER},
+      </if>
+      <if test="headimage != null" >
+        headImage = #{headimage,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="style != null" >
+        style = #{style,jdbcType=VARCHAR},
+      </if>
+      <if test="winner != null" >
+        winner = #{winner,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute71 != null" >
+        Attribute_71 = #{attribute71,jdbcType=VARCHAR},
+      </if>
+      <if test="productdetail != null" >
+        productDetail = #{productdetail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where productId = #{productid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zhong.pojo.Product" >
+    update product
+    set productName = #{productname,jdbcType=VARCHAR},
+      productPrice = #{productprice,jdbcType=INTEGER},
+      singlePrice = #{singleprice,jdbcType=INTEGER},
+      productLimit = #{productlimit,jdbcType=INTEGER},
+      productRealPrice = #{productrealprice,jdbcType=VARCHAR},
+      productTitle = #{producttitle,jdbcType=VARCHAR},
+      productType = #{producttype,jdbcType=INTEGER},
+      productBrand = #{productbrand,jdbcType=INTEGER},
+      headImage = #{headimage,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      style = #{style,jdbcType=VARCHAR},
+      winner = #{winner,jdbcType=VARCHAR},
+      Attribute_71 = #{attribute71,jdbcType=VARCHAR},
+      productDetail = #{productdetail,jdbcType=LONGVARCHAR}
+    where productId = #{productid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhong.pojo.Product" >
+    update product
+    set productName = #{productname,jdbcType=VARCHAR},
+      productPrice = #{productprice,jdbcType=INTEGER},
+      singlePrice = #{singleprice,jdbcType=INTEGER},
+      productLimit = #{productlimit,jdbcType=INTEGER},
+      productRealPrice = #{productrealprice,jdbcType=VARCHAR},
+      productTitle = #{producttitle,jdbcType=VARCHAR},
+      productType = #{producttype,jdbcType=INTEGER},
+      productBrand = #{productbrand,jdbcType=INTEGER},
+      headImage = #{headimage,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      style = #{style,jdbcType=VARCHAR},
+      winner = #{winner,jdbcType=VARCHAR},
+      Attribute_71 = #{attribute71,jdbcType=VARCHAR}
+    where productId = #{productid,jdbcType=INTEGER}
+  </update>
+</mapper>

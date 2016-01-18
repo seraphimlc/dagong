@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhong.mapper.LatestLotteryMapper" >
+  <resultMap id="BaseResultMap" type="com.zhong.pojo.LatestLottery" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="productId" property="productid" jdbcType="INTEGER" />
+    <result column="productType" property="producttype" jdbcType="INTEGER" />
+    <result column="productName" property="productname" jdbcType="VARCHAR" />
+    <result column="productTitle" property="producttitle" jdbcType="VARCHAR" />
+    <result column="productPrice" property="productprice" jdbcType="INTEGER" />
+    <result column="productImg" property="productimg" jdbcType="VARCHAR" />
+    <result column="productPeriod" property="productperiod" jdbcType="INTEGER" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+    <result column="Location" property="location" jdbcType="VARCHAR" />
+    <result column="announcedTime" property="announcedtime" jdbcType="VARCHAR" />
+    <result column="announcedType" property="announcedtype" jdbcType="INTEGER" />
+    <result column="buyTime" property="buytime" jdbcType="VARCHAR" />
+    <result column="spellbuyRecordId" property="spellbuyrecordid" jdbcType="INTEGER" />
+    <result column="spellbuyProductId" property="spellbuyproductid" jdbcType="INTEGER" />
+    <result column="randomNumber" property="randomnumber" jdbcType="INTEGER" />
+    <result column="dateSum" property="datesum" jdbcType="BIGINT" />
+    <result column="sscNumber" property="sscnumber" jdbcType="INTEGER" />
+    <result column="sscPeriod" property="sscperiod" jdbcType="BIGINT" />
+    <result column="buyNumberCount" property="buynumbercount" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="buyUser" property="buyuser" jdbcType="VARCHAR" />
+    <result column="userFace" property="userface" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="shareStatus" property="sharestatus" jdbcType="INTEGER" />
+    <result column="shareId" property="shareid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, productId, productType, productName, productTitle, productPrice, productImg, 
+    productPeriod, userName, Location, announcedTime, announcedType, buyTime, spellbuyRecordId, 
+    spellbuyProductId, randomNumber, dateSum, sscNumber, sscPeriod, buyNumberCount, userId, 
+    buyUser, userFace, status, shareStatus, shareId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from latestlottery
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from latestlottery
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhong.pojo.LatestLottery" >
+    insert into latestlottery (id, productId, productType, 
+      productName, productTitle, productPrice, 
+      productImg, productPeriod, userName, 
+      Location, announcedTime, announcedType, 
+      buyTime, spellbuyRecordId, spellbuyProductId, 
+      randomNumber, dateSum, sscNumber, 
+      sscPeriod, buyNumberCount, userId, 
+      buyUser, userFace, status, 
+      shareStatus, shareId)
+    values (#{id,jdbcType=INTEGER}, #{productid,jdbcType=INTEGER}, #{producttype,jdbcType=INTEGER}, 
+      #{productname,jdbcType=VARCHAR}, #{producttitle,jdbcType=VARCHAR}, #{productprice,jdbcType=INTEGER}, 
+      #{productimg,jdbcType=VARCHAR}, #{productperiod,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
+      #{location,jdbcType=VARCHAR}, #{announcedtime,jdbcType=VARCHAR}, #{announcedtype,jdbcType=INTEGER}, 
+      #{buytime,jdbcType=VARCHAR}, #{spellbuyrecordid,jdbcType=INTEGER}, #{spellbuyproductid,jdbcType=INTEGER}, 
+      #{randomnumber,jdbcType=INTEGER}, #{datesum,jdbcType=BIGINT}, #{sscnumber,jdbcType=INTEGER}, 
+      #{sscperiod,jdbcType=BIGINT}, #{buynumbercount,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, 
+      #{buyuser,jdbcType=VARCHAR}, #{userface,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{sharestatus,jdbcType=INTEGER}, #{shareid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhong.pojo.LatestLottery" >
+    insert into latestlottery
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="productid != null" >
+        productId,
+      </if>
+      <if test="producttype != null" >
+        productType,
+      </if>
+      <if test="productname != null" >
+        productName,
+      </if>
+      <if test="producttitle != null" >
+        productTitle,
+      </if>
+      <if test="productprice != null" >
+        productPrice,
+      </if>
+      <if test="productimg != null" >
+        productImg,
+      </if>
+      <if test="productperiod != null" >
+        productPeriod,
+      </if>
+      <if test="username != null" >
+        userName,
+      </if>
+      <if test="location != null" >
+        Location,
+      </if>
+      <if test="announcedtime != null" >
+        announcedTime,
+      </if>
+      <if test="announcedtype != null" >
+        announcedType,
+      </if>
+      <if test="buytime != null" >
+        buyTime,
+      </if>
+      <if test="spellbuyrecordid != null" >
+        spellbuyRecordId,
+      </if>
+      <if test="spellbuyproductid != null" >
+        spellbuyProductId,
+      </if>
+      <if test="randomnumber != null" >
+        randomNumber,
+      </if>
+      <if test="datesum != null" >
+        dateSum,
+      </if>
+      <if test="sscnumber != null" >
+        sscNumber,
+      </if>
+      <if test="sscperiod != null" >
+        sscPeriod,
+      </if>
+      <if test="buynumbercount != null" >
+        buyNumberCount,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="buyuser != null" >
+        buyUser,
+      </if>
+      <if test="userface != null" >
+        userFace,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sharestatus != null" >
+        shareStatus,
+      </if>
+      <if test="shareid != null" >
+        shareId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="productid != null" >
+        #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="producttype != null" >
+        #{producttype,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null" >
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="producttitle != null" >
+        #{producttitle,jdbcType=VARCHAR},
+      </if>
+      <if test="productprice != null" >
+        #{productprice,jdbcType=INTEGER},
+      </if>
+      <if test="productimg != null" >
+        #{productimg,jdbcType=VARCHAR},
+      </if>
+      <if test="productperiod != null" >
+        #{productperiod,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="announcedtime != null" >
+        #{announcedtime,jdbcType=VARCHAR},
+      </if>
+      <if test="announcedtype != null" >
+        #{announcedtype,jdbcType=INTEGER},
+      </if>
+      <if test="buytime != null" >
+        #{buytime,jdbcType=VARCHAR},
+      </if>
+      <if test="spellbuyrecordid != null" >
+        #{spellbuyrecordid,jdbcType=INTEGER},
+      </if>
+      <if test="spellbuyproductid != null" >
+        #{spellbuyproductid,jdbcType=INTEGER},
+      </if>
+      <if test="randomnumber != null" >
+        #{randomnumber,jdbcType=INTEGER},
+      </if>
+      <if test="datesum != null" >
+        #{datesum,jdbcType=BIGINT},
+      </if>
+      <if test="sscnumber != null" >
+        #{sscnumber,jdbcType=INTEGER},
+      </if>
+      <if test="sscperiod != null" >
+        #{sscperiod,jdbcType=BIGINT},
+      </if>
+      <if test="buynumbercount != null" >
+        #{buynumbercount,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="buyuser != null" >
+        #{buyuser,jdbcType=VARCHAR},
+      </if>
+      <if test="userface != null" >
+        #{userface,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sharestatus != null" >
+        #{sharestatus,jdbcType=INTEGER},
+      </if>
+      <if test="shareid != null" >
+        #{shareid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhong.pojo.LatestLottery" >
+    update latestlottery
+    <set >
+      <if test="productid != null" >
+        productId = #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="producttype != null" >
+        productType = #{producttype,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null" >
+        productName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="producttitle != null" >
+        productTitle = #{producttitle,jdbcType=VARCHAR},
+      </if>
+      <if test="productprice != null" >
+        productPrice = #{productprice,jdbcType=INTEGER},
+      </if>
+      <if test="productimg != null" >
+        productImg = #{productimg,jdbcType=VARCHAR},
+      </if>
+      <if test="productperiod != null" >
+        productPeriod = #{productperiod,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        Location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="announcedtime != null" >
+        announcedTime = #{announcedtime,jdbcType=VARCHAR},
+      </if>
+      <if test="announcedtype != null" >
+        announcedType = #{announcedtype,jdbcType=INTEGER},
+      </if>
+      <if test="buytime != null" >
+        buyTime = #{buytime,jdbcType=VARCHAR},
+      </if>
+      <if test="spellbuyrecordid != null" >
+        spellbuyRecordId = #{spellbuyrecordid,jdbcType=INTEGER},
+      </if>
+      <if test="spellbuyproductid != null" >
+        spellbuyProductId = #{spellbuyproductid,jdbcType=INTEGER},
+      </if>
+      <if test="randomnumber != null" >
+        randomNumber = #{randomnumber,jdbcType=INTEGER},
+      </if>
+      <if test="datesum != null" >
+        dateSum = #{datesum,jdbcType=BIGINT},
+      </if>
+      <if test="sscnumber != null" >
+        sscNumber = #{sscnumber,jdbcType=INTEGER},
+      </if>
+      <if test="sscperiod != null" >
+        sscPeriod = #{sscperiod,jdbcType=BIGINT},
+      </if>
+      <if test="buynumbercount != null" >
+        buyNumberCount = #{buynumbercount,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="buyuser != null" >
+        buyUser = #{buyuser,jdbcType=VARCHAR},
+      </if>
+      <if test="userface != null" >
+        userFace = #{userface,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sharestatus != null" >
+        shareStatus = #{sharestatus,jdbcType=INTEGER},
+      </if>
+      <if test="shareid != null" >
+        shareId = #{shareid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhong.pojo.LatestLottery" >
+    update latestlottery
+    set productId = #{productid,jdbcType=INTEGER},
+      productType = #{producttype,jdbcType=INTEGER},
+      productName = #{productname,jdbcType=VARCHAR},
+      productTitle = #{producttitle,jdbcType=VARCHAR},
+      productPrice = #{productprice,jdbcType=INTEGER},
+      productImg = #{productimg,jdbcType=VARCHAR},
+      productPeriod = #{productperiod,jdbcType=INTEGER},
+      userName = #{username,jdbcType=VARCHAR},
+      Location = #{location,jdbcType=VARCHAR},
+      announcedTime = #{announcedtime,jdbcType=VARCHAR},
+      announcedType = #{announcedtype,jdbcType=INTEGER},
+      buyTime = #{buytime,jdbcType=VARCHAR},
+      spellbuyRecordId = #{spellbuyrecordid,jdbcType=INTEGER},
+      spellbuyProductId = #{spellbuyproductid,jdbcType=INTEGER},
+      randomNumber = #{randomnumber,jdbcType=INTEGER},
+      dateSum = #{datesum,jdbcType=BIGINT},
+      sscNumber = #{sscnumber,jdbcType=INTEGER},
+      sscPeriod = #{sscperiod,jdbcType=BIGINT},
+      buyNumberCount = #{buynumbercount,jdbcType=INTEGER},
+      userId = #{userid,jdbcType=INTEGER},
+      buyUser = #{buyuser,jdbcType=VARCHAR},
+      userFace = #{userface,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      shareStatus = #{sharestatus,jdbcType=INTEGER},
+      shareId = #{shareid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

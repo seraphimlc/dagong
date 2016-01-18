@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhong.mapper.ProductImageMapper" >
+  <resultMap id="BaseResultMap" type="com.zhong.pojo.ProductImage" >
+    <id column="productImageId" property="productimageid" jdbcType="INTEGER" />
+    <result column="piProductId" property="piproductid" jdbcType="INTEGER" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="imageType" property="imagetype" jdbcType="VARCHAR" />
+    <result column="Attribute_75" property="attribute75" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    productImageId, piProductId, image, imageType, Attribute_75
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from productimage
+    where productImageId = #{productimageid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from productimage
+    where productImageId = #{productimageid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhong.pojo.ProductImage" >
+    insert into productimage (productImageId, piProductId, image, 
+      imageType, Attribute_75)
+    values (#{productimageid,jdbcType=INTEGER}, #{piproductid,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, 
+      #{imagetype,jdbcType=VARCHAR}, #{attribute75,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhong.pojo.ProductImage" >
+    insert into productimage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productimageid != null" >
+        productImageId,
+      </if>
+      <if test="piproductid != null" >
+        piProductId,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="imagetype != null" >
+        imageType,
+      </if>
+      <if test="attribute75 != null" >
+        Attribute_75,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productimageid != null" >
+        #{productimageid,jdbcType=INTEGER},
+      </if>
+      <if test="piproductid != null" >
+        #{piproductid,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="imagetype != null" >
+        #{imagetype,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute75 != null" >
+        #{attribute75,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhong.pojo.ProductImage" >
+    update productimage
+    <set >
+      <if test="piproductid != null" >
+        piProductId = #{piproductid,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="imagetype != null" >
+        imageType = #{imagetype,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute75 != null" >
+        Attribute_75 = #{attribute75,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where productImageId = #{productimageid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhong.pojo.ProductImage" >
+    update productimage
+    set piProductId = #{piproductid,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      imageType = #{imagetype,jdbcType=VARCHAR},
+      Attribute_75 = #{attribute75,jdbcType=VARCHAR}
+    where productImageId = #{productimageid,jdbcType=INTEGER}
+  </update>
+</mapper>

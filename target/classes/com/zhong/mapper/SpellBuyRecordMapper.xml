@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhong.mapper.SpellBuyRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.zhong.pojo.SpellBuyRecord" >
+    <id column="spellbuyRecordId" property="spellbuyrecordid" jdbcType="INTEGER" />
+    <result column="fkSpellbuyProductId" property="fkspellbuyproductid" jdbcType="INTEGER" />
+    <result column="buyer" property="buyer" jdbcType="INTEGER" />
+    <result column="buyPrice" property="buyprice" jdbcType="INTEGER" />
+    <result column="buyDate" property="buydate" jdbcType="VARCHAR" />
+    <result column="spRandomNo" property="sprandomno" jdbcType="VARCHAR" />
+    <result column="spWinningStatus" property="spwinningstatus" jdbcType="VARCHAR" />
+    <result column="buyStatus" property="buystatus" jdbcType="VARCHAR" />
+    <result column="buyIp" property="buyip" jdbcType="VARCHAR" />
+    <result column="buyLocal" property="buylocal" jdbcType="VARCHAR" />
+    <result column="buySource" property="buysource" jdbcType="INTEGER" />
+    <result column="Attribute_66" property="attribute66" jdbcType="VARCHAR" />
+    <result column="Attribute_67" property="attribute67" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    spellbuyRecordId, fkSpellbuyProductId, buyer, buyPrice, buyDate, spRandomNo, spWinningStatus, 
+    buyStatus, buyIp, buyLocal, buySource, Attribute_66, Attribute_67
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from spellbuyrecord
+    where spellbuyRecordId = #{spellbuyrecordid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from spellbuyrecord
+    where spellbuyRecordId = #{spellbuyrecordid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhong.pojo.SpellBuyRecord" >
+    insert into spellbuyrecord (spellbuyRecordId, fkSpellbuyProductId, 
+      buyer, buyPrice, buyDate, 
+      spRandomNo, spWinningStatus, buyStatus, 
+      buyIp, buyLocal, buySource, 
+      Attribute_66, Attribute_67)
+    values (#{spellbuyrecordid,jdbcType=INTEGER}, #{fkspellbuyproductid,jdbcType=INTEGER}, 
+      #{buyer,jdbcType=INTEGER}, #{buyprice,jdbcType=INTEGER}, #{buydate,jdbcType=VARCHAR}, 
+      #{sprandomno,jdbcType=VARCHAR}, #{spwinningstatus,jdbcType=VARCHAR}, #{buystatus,jdbcType=VARCHAR}, 
+      #{buyip,jdbcType=VARCHAR}, #{buylocal,jdbcType=VARCHAR}, #{buysource,jdbcType=INTEGER}, 
+      #{attribute66,jdbcType=VARCHAR}, #{attribute67,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhong.pojo.SpellBuyRecord" >
+    insert into spellbuyrecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="spellbuyrecordid != null" >
+        spellbuyRecordId,
+      </if>
+      <if test="fkspellbuyproductid != null" >
+        fkSpellbuyProductId,
+      </if>
+      <if test="buyer != null" >
+        buyer,
+      </if>
+      <if test="buyprice != null" >
+        buyPrice,
+      </if>
+      <if test="buydate != null" >
+        buyDate,
+      </if>
+      <if test="sprandomno != null" >
+        spRandomNo,
+      </if>
+      <if test="spwinningstatus != null" >
+        spWinningStatus,
+      </if>
+      <if test="buystatus != null" >
+        buyStatus,
+      </if>
+      <if test="buyip != null" >
+        buyIp,
+      </if>
+      <if test="buylocal != null" >
+        buyLocal,
+      </if>
+      <if test="buysource != null" >
+        buySource,
+      </if>
+      <if test="attribute66 != null" >
+        Attribute_66,
+      </if>
+      <if test="attribute67 != null" >
+        Attribute_67,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="spellbuyrecordid != null" >
+        #{spellbuyrecordid,jdbcType=INTEGER},
+      </if>
+      <if test="fkspellbuyproductid != null" >
+        #{fkspellbuyproductid,jdbcType=INTEGER},
+      </if>
+      <if test="buyer != null" >
+        #{buyer,jdbcType=INTEGER},
+      </if>
+      <if test="buyprice != null" >
+        #{buyprice,jdbcType=INTEGER},
+      </if>
+      <if test="buydate != null" >
+        #{buydate,jdbcType=VARCHAR},
+      </if>
+      <if test="sprandomno != null" >
+        #{sprandomno,jdbcType=VARCHAR},
+      </if>
+      <if test="spwinningstatus != null" >
+        #{spwinningstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="buystatus != null" >
+        #{buystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="buyip != null" >
+        #{buyip,jdbcType=VARCHAR},
+      </if>
+      <if test="buylocal != null" >
+        #{buylocal,jdbcType=VARCHAR},
+      </if>
+      <if test="buysource != null" >
+        #{buysource,jdbcType=INTEGER},
+      </if>
+      <if test="attribute66 != null" >
+        #{attribute66,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute67 != null" >
+        #{attribute67,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhong.pojo.SpellBuyRecord" >
+    update spellbuyrecord
+    <set >
+      <if test="fkspellbuyproductid != null" >
+        fkSpellbuyProductId = #{fkspellbuyproductid,jdbcType=INTEGER},
+      </if>
+      <if test="buyer != null" >
+        buyer = #{buyer,jdbcType=INTEGER},
+      </if>
+      <if test="buyprice != null" >
+        buyPrice = #{buyprice,jdbcType=INTEGER},
+      </if>
+      <if test="buydate != null" >
+        buyDate = #{buydate,jdbcType=VARCHAR},
+      </if>
+      <if test="sprandomno != null" >
+        spRandomNo = #{sprandomno,jdbcType=VARCHAR},
+      </if>
+      <if test="spwinningstatus != null" >
+        spWinningStatus = #{spwinningstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="buystatus != null" >
+        buyStatus = #{buystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="buyip != null" >
+        buyIp = #{buyip,jdbcType=VARCHAR},
+      </if>
+      <if test="buylocal != null" >
+        buyLocal = #{buylocal,jdbcType=VARCHAR},
+      </if>
+      <if test="buysource != null" >
+        buySource = #{buysource,jdbcType=INTEGER},
+      </if>
+      <if test="attribute66 != null" >
+        Attribute_66 = #{attribute66,jdbcType=VARCHAR},
+      </if>
+      <if test="attribute67 != null" >
+        Attribute_67 = #{attribute67,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where spellbuyRecordId = #{spellbuyrecordid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhong.pojo.SpellBuyRecord" >
+    update spellbuyrecord
+    set fkSpellbuyProductId = #{fkspellbuyproductid,jdbcType=INTEGER},
+      buyer = #{buyer,jdbcType=INTEGER},
+      buyPrice = #{buyprice,jdbcType=INTEGER},
+      buyDate = #{buydate,jdbcType=VARCHAR},
+      spRandomNo = #{sprandomno,jdbcType=VARCHAR},
+      spWinningStatus = #{spwinningstatus,jdbcType=VARCHAR},
+      buyStatus = #{buystatus,jdbcType=VARCHAR},
+      buyIp = #{buyip,jdbcType=VARCHAR},
+      buyLocal = #{buylocal,jdbcType=VARCHAR},
+      buySource = #{buysource,jdbcType=INTEGER},
+      Attribute_66 = #{attribute66,jdbcType=VARCHAR},
+      Attribute_67 = #{attribute67,jdbcType=VARCHAR}
+    where spellbuyRecordId = #{spellbuyrecordid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhong.mapper.ShareImageMapper" >
+  <resultMap id="BaseResultMap" type="com.zhong.pojo.ShareImage" >
+    <id column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="shareInfoId" property="shareinfoid" jdbcType="INTEGER" />
+    <result column="images" property="images" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    uid, shareInfoId, images
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shareimage
+    where uid = #{uid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shareimage
+    where uid = #{uid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhong.pojo.ShareImage" >
+    insert into shareimage (uid, shareInfoId, images
+      )
+    values (#{uid,jdbcType=INTEGER}, #{shareinfoid,jdbcType=INTEGER}, #{images,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhong.pojo.ShareImage" >
+    insert into shareimage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="shareinfoid != null" >
+        shareInfoId,
+      </if>
+      <if test="images != null" >
+        images,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="shareinfoid != null" >
+        #{shareinfoid,jdbcType=INTEGER},
+      </if>
+      <if test="images != null" >
+        #{images,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhong.pojo.ShareImage" >
+    update shareimage
+    <set >
+      <if test="shareinfoid != null" >
+        shareInfoId = #{shareinfoid,jdbcType=INTEGER},
+      </if>
+      <if test="images != null" >
+        images = #{images,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhong.pojo.ShareImage" >
+    update shareimage
+    set shareInfoId = #{shareinfoid,jdbcType=INTEGER},
+      images = #{images,jdbcType=VARCHAR}
+    where uid = #{uid,jdbcType=INTEGER}
+  </update>
+</mapper>

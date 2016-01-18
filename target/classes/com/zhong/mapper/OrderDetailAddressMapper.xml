@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhong.mapper.OrderDetailAddressMapper" >
+  <resultMap id="BaseResultMap" type="com.zhong.pojo.OrderDetailAddress" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="orderDetailId" property="orderdetailid" jdbcType="INTEGER" />
+    <result column="consignee" property="consignee" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="postDate" property="postdate" jdbcType="VARCHAR" />
+    <result column="orderRemarks" property="orderremarks" jdbcType="VARCHAR" />
+    <result column="expressNo" property="expressno" jdbcType="VARCHAR" />
+    <result column="expressCompany" property="expresscompany" jdbcType="VARCHAR" />
+    <result column="deliverTime" property="delivertime" jdbcType="VARCHAR" />
+    <result column="DeliverRemarks" property="deliverremarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, orderDetailId, consignee, phone, address, postDate, orderRemarks, expressNo, 
+    expressCompany, deliverTime, DeliverRemarks
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from orderdetailaddress
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from orderdetailaddress
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhong.pojo.OrderDetailAddress" >
+    insert into orderdetailaddress (id, orderDetailId, consignee, 
+      phone, address, postDate, 
+      orderRemarks, expressNo, expressCompany, 
+      deliverTime, DeliverRemarks)
+    values (#{id,jdbcType=INTEGER}, #{orderdetailid,jdbcType=INTEGER}, #{consignee,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{postdate,jdbcType=VARCHAR}, 
+      #{orderremarks,jdbcType=VARCHAR}, #{expressno,jdbcType=VARCHAR}, #{expresscompany,jdbcType=VARCHAR}, 
+      #{delivertime,jdbcType=VARCHAR}, #{deliverremarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhong.pojo.OrderDetailAddress" >
+    insert into orderdetailaddress
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderdetailid != null" >
+        orderDetailId,
+      </if>
+      <if test="consignee != null" >
+        consignee,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="postdate != null" >
+        postDate,
+      </if>
+      <if test="orderremarks != null" >
+        orderRemarks,
+      </if>
+      <if test="expressno != null" >
+        expressNo,
+      </if>
+      <if test="expresscompany != null" >
+        expressCompany,
+      </if>
+      <if test="delivertime != null" >
+        deliverTime,
+      </if>
+      <if test="deliverremarks != null" >
+        DeliverRemarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderdetailid != null" >
+        #{orderdetailid,jdbcType=INTEGER},
+      </if>
+      <if test="consignee != null" >
+        #{consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postdate != null" >
+        #{postdate,jdbcType=VARCHAR},
+      </if>
+      <if test="orderremarks != null" >
+        #{orderremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="expressno != null" >
+        #{expressno,jdbcType=VARCHAR},
+      </if>
+      <if test="expresscompany != null" >
+        #{expresscompany,jdbcType=VARCHAR},
+      </if>
+      <if test="delivertime != null" >
+        #{delivertime,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverremarks != null" >
+        #{deliverremarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhong.pojo.OrderDetailAddress" >
+    update orderdetailaddress
+    <set >
+      <if test="orderdetailid != null" >
+        orderDetailId = #{orderdetailid,jdbcType=INTEGER},
+      </if>
+      <if test="consignee != null" >
+        consignee = #{consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postdate != null" >
+        postDate = #{postdate,jdbcType=VARCHAR},
+      </if>
+      <if test="orderremarks != null" >
+        orderRemarks = #{orderremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="expressno != null" >
+        expressNo = #{expressno,jdbcType=VARCHAR},
+      </if>
+      <if test="expresscompany != null" >
+        expressCompany = #{expresscompany,jdbcType=VARCHAR},
+      </if>
+      <if test="delivertime != null" >
+        deliverTime = #{delivertime,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverremarks != null" >
+        DeliverRemarks = #{deliverremarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhong.pojo.OrderDetailAddress" >
+    update orderdetailaddress
+    set orderDetailId = #{orderdetailid,jdbcType=INTEGER},
+      consignee = #{consignee,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      postDate = #{postdate,jdbcType=VARCHAR},
+      orderRemarks = #{orderremarks,jdbcType=VARCHAR},
+      expressNo = #{expressno,jdbcType=VARCHAR},
+      expressCompany = #{expresscompany,jdbcType=VARCHAR},
+      deliverTime = #{delivertime,jdbcType=VARCHAR},
+      DeliverRemarks = #{deliverremarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

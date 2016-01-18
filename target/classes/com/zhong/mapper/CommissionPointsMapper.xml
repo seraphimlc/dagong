@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhong.mapper.CommissionPointsMapper" >
+  <resultMap id="BaseResultMap" type="com.zhong.pojo.CommissionPoints" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="toUserId" property="touserid" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="pay" property="pay" jdbcType="VARCHAR" />
+    <result column="detailed" property="detailed" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, toUserId, date, pay, detailed
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from commissionpoints
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from commissionpoints
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhong.pojo.CommissionPoints" >
+    insert into commissionpoints (id, toUserId, date, 
+      pay, detailed)
+    values (#{id,jdbcType=INTEGER}, #{touserid,jdbcType=INTEGER}, #{date,jdbcType=VARCHAR}, 
+      #{pay,jdbcType=VARCHAR}, #{detailed,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhong.pojo.CommissionPoints" >
+    insert into commissionpoints
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="touserid != null" >
+        toUserId,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="pay != null" >
+        pay,
+      </if>
+      <if test="detailed != null" >
+        detailed,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="touserid != null" >
+        #{touserid,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="pay != null" >
+        #{pay,jdbcType=VARCHAR},
+      </if>
+      <if test="detailed != null" >
+        #{detailed,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhong.pojo.CommissionPoints" >
+    update commissionpoints
+    <set >
+      <if test="touserid != null" >
+        toUserId = #{touserid,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="pay != null" >
+        pay = #{pay,jdbcType=VARCHAR},
+      </if>
+      <if test="detailed != null" >
+        detailed = #{detailed,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhong.pojo.CommissionPoints" >
+    update commissionpoints
+    set toUserId = #{touserid,jdbcType=INTEGER},
+      date = #{date,jdbcType=VARCHAR},
+      pay = #{pay,jdbcType=VARCHAR},
+      detailed = #{detailed,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

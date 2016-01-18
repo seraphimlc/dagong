@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhong.mapper.QQGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.zhong.pojo.QQGroup" >
+    <id column="qqid" property="qqid" jdbcType="INTEGER" />
+    <result column="groupName" property="groupname" jdbcType="VARCHAR" />
+    <result column="groupNo" property="groupno" jdbcType="INTEGER" />
+    <result column="groupProvince" property="groupprovince" jdbcType="INTEGER" />
+    <result column="groupCity" property="groupcity" jdbcType="INTEGER" />
+    <result column="groupDistrict" property="groupdistrict" jdbcType="INTEGER" />
+    <result column="groupShowName" property="groupshowname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    qqid, groupName, groupNo, groupProvince, groupCity, groupDistrict, groupShowName
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from qqgroup
+    where qqid = #{qqid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from qqgroup
+    where qqid = #{qqid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhong.pojo.QQGroup" >
+    insert into qqgroup (qqid, groupName, groupNo, 
+      groupProvince, groupCity, groupDistrict, 
+      groupShowName)
+    values (#{qqid,jdbcType=INTEGER}, #{groupname,jdbcType=VARCHAR}, #{groupno,jdbcType=INTEGER}, 
+      #{groupprovince,jdbcType=INTEGER}, #{groupcity,jdbcType=INTEGER}, #{groupdistrict,jdbcType=INTEGER}, 
+      #{groupshowname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhong.pojo.QQGroup" >
+    insert into qqgroup
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="qqid != null" >
+        qqid,
+      </if>
+      <if test="groupname != null" >
+        groupName,
+      </if>
+      <if test="groupno != null" >
+        groupNo,
+      </if>
+      <if test="groupprovince != null" >
+        groupProvince,
+      </if>
+      <if test="groupcity != null" >
+        groupCity,
+      </if>
+      <if test="groupdistrict != null" >
+        groupDistrict,
+      </if>
+      <if test="groupshowname != null" >
+        groupShowName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="qqid != null" >
+        #{qqid,jdbcType=INTEGER},
+      </if>
+      <if test="groupname != null" >
+        #{groupname,jdbcType=VARCHAR},
+      </if>
+      <if test="groupno != null" >
+        #{groupno,jdbcType=INTEGER},
+      </if>
+      <if test="groupprovince != null" >
+        #{groupprovince,jdbcType=INTEGER},
+      </if>
+      <if test="groupcity != null" >
+        #{groupcity,jdbcType=INTEGER},
+      </if>
+      <if test="groupdistrict != null" >
+        #{groupdistrict,jdbcType=INTEGER},
+      </if>
+      <if test="groupshowname != null" >
+        #{groupshowname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhong.pojo.QQGroup" >
+    update qqgroup
+    <set >
+      <if test="groupname != null" >
+        groupName = #{groupname,jdbcType=VARCHAR},
+      </if>
+      <if test="groupno != null" >
+        groupNo = #{groupno,jdbcType=INTEGER},
+      </if>
+      <if test="groupprovince != null" >
+        groupProvince = #{groupprovince,jdbcType=INTEGER},
+      </if>
+      <if test="groupcity != null" >
+        groupCity = #{groupcity,jdbcType=INTEGER},
+      </if>
+      <if test="groupdistrict != null" >
+        groupDistrict = #{groupdistrict,jdbcType=INTEGER},
+      </if>
+      <if test="groupshowname != null" >
+        groupShowName = #{groupshowname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where qqid = #{qqid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhong.pojo.QQGroup" >
+    update qqgroup
+    set groupName = #{groupname,jdbcType=VARCHAR},
+      groupNo = #{groupno,jdbcType=INTEGER},
+      groupProvince = #{groupprovince,jdbcType=INTEGER},
+      groupCity = #{groupcity,jdbcType=INTEGER},
+      groupDistrict = #{groupdistrict,jdbcType=INTEGER},
+      groupShowName = #{groupshowname,jdbcType=VARCHAR}
+    where qqid = #{qqid,jdbcType=INTEGER}
+  </update>
+</mapper>

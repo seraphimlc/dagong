@@ -13,7 +13,7 @@ public interface FollowJobMapper {
 
     FollowJob selectByPrimaryKey(String id);
 
-    List<FollowJob> selectFollowJobSelective(FollowJob followJob);
+    List<FollowJob> getListSelective(FollowJob followJob);
 
     int updateByPrimaryKeySelective(FollowJob record);
 

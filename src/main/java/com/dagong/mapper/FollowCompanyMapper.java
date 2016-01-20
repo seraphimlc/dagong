@@ -17,5 +17,5 @@ public interface FollowCompanyMapper {
 
     int updateByPrimaryKey(FollowCompany record);
 
-    List<FollowCompany> selectFollowCompanySelective(FollowCompany followCompany);
+    List<FollowCompany> getListSelective(FollowCompany followCompany);
 }

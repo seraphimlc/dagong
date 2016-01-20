@@ -17,7 +17,7 @@
     </select>
 
 
-    <select id="selectFollowJobSelective" resultMap="BaseResultMap" parameterType="com.dagong.pojo.FollowJob">
+    <select id="getListSelective" resultMap="BaseResultMap" parameterType="com.dagong.pojo.FollowJob">
         select
         <include refid="Base_Column_List"/>
         from followjob

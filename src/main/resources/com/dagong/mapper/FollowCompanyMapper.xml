@@ -16,7 +16,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </select>
 
-  <select id="selectFollowCompanySelective" resultMap="BaseResultMap" parameterType="com.dagong.pojo.FollowCompany" >
+  <select id="getListSelective" resultMap="BaseResultMap" parameterType="com.dagong.pojo.FollowCompany" >
     select
     <include refid="Base_Column_List" />
     from followcompany

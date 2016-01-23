@@ -9,7 +9,7 @@ public class InviteLog {
 
     private Date logTime;
 
-    private Integer modifyUser;
+    private String modifyUser;
 
     private Integer oldStatus;
 
@@ -41,11 +41,11 @@ public class InviteLog {
         this.logTime = logTime;
     }
 
-    public Integer getModifyUser() {
+    public String getModifyUser() {
         return modifyUser;
     }
 
-    public void setModifyUser(Integer modifyUser) {
+    public void setModifyUser(String modifyUser) {
         this.modifyUser = modifyUser;
     }
 

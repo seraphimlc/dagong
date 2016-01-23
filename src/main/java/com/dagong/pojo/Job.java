@@ -5,6 +5,8 @@ import java.util.Date;
 public class Job {
     private String id;
 
+    private String jobname;
+
     private String companyId;
 
     private String detail;
@@ -31,6 +33,14 @@ public class Job {
 
     public void setId(String id) {
         this.id = id == null ? null : id.trim();
+    }
+
+    public String getJobname() {
+        return jobname;
+    }
+
+    public void setJobname(String jobname) {
+        this.jobname = jobname == null ? null : jobname.trim();
     }
 
     public String getCompanyId() {

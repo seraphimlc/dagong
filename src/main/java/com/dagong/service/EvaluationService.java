@@ -6,6 +6,7 @@ import com.dagong.mapper.UserEvaluationMapper;
 import com.dagong.pojo.CompanyEvaluation;
 import com.dagong.pojo.JobEvaluation;
 import com.dagong.pojo.UserEvaluation;
+import com.dagong.util.IdGenerator;
 import com.dagong.util.ListUtil;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,26 @@ public class EvaluationService {
     @Resource
     private UserEvaluationMapper userEvaluationMapper;
 
+    @Resource
+    private IdGenerator idGenerator;
+
     public boolean evaluateJob(String userId, String jobId, int rank, String comment) {
         if (ListUtil.isEmpty(getJobEvaluation(jobId, userId))) {
-            JobEvaluation jobEvaluation = new JobEvaluation();
-            jobEvaluation.setUserId(userId);
-            jobEvaluation.setJobId(jobId);
-            jobEvaluation.setRank(rank);
-            jobEvaluation.setComment(comment);
+            JobEvaluation jobEvaluation = createJobEvaluation(userId, jobId, rank, comment);
             jobEvaluationMapper.insert(jobEvaluation);
             return true;
         }
         return false;
+    }
+
+    private JobEvaluation createJobEvaluation(String userId, String jobId, int rank, String comment) {
+        JobEvaluation jobEvaluation = new JobEvaluation();
+        jobEvaluation.setUserId(userId);
+        jobEvaluation.setJobId(jobId);
+        jobEvaluation.setRank(rank);
+        jobEvaluation.setComment(comment);
+        jobEvaluation.setId(idGenerator.generate(JobEvaluation.class.getSimpleName()));
+        return jobEvaluation;
     }
 
     public List<JobEvaluation> getJobEvaluation(String jobId, String userId) {
@@ -62,15 +72,21 @@ public class EvaluationService {
     public boolean evaluateCompany(String userId, String companyId, int rank, String comment) {
 
         if (ListUtil.isEmpty(getCompanyEvaluation(companyId, userId))) {
-            CompanyEvaluation companyEvaluation = new CompanyEvaluation();
-            companyEvaluation.setUserId(userId);
-            companyEvaluation.setCompanyId(companyId);
-            companyEvaluation.setRank(rank);
-            companyEvaluation.setComment(comment);
+            CompanyEvaluation companyEvaluation = createCompanyEvaluation(userId, companyId, rank, comment);
             companyEvaluationMapper.insert(companyEvaluation);
             return true;
         }
         return false;
+    }
+
+    private CompanyEvaluation createCompanyEvaluation(String userId, String companyId, int rank, String comment) {
+        CompanyEvaluation companyEvaluation = new CompanyEvaluation();
+        companyEvaluation.setUserId(userId);
+        companyEvaluation.setCompanyId(companyId);
+        companyEvaluation.setRank(rank);
+        companyEvaluation.setComment(comment);
+        companyEvaluation.setId(idGenerator.generate(CompanyEvaluation.class.getSimpleName()));
+        return companyEvaluation;
     }
 
     public List<CompanyEvaluation> getCompanyEvaluation(String companyId,String userId) {
@@ -93,15 +109,21 @@ public class EvaluationService {
 
     public boolean evaluateUser(String companyUserId, String userId, int rank, String comment) {
         if (ListUtil.isEmpty(getUserEvaluation(companyUserId, userId))) {
-            UserEvaluation userEvaluation = new UserEvaluation();
-            userEvaluation.setCompanyUser(companyUserId);
-            userEvaluation.setUserId(userId);
-            userEvaluation.setRank(rank);
-            userEvaluation.setComment(comment);
+            UserEvaluation userEvaluation = createUserEvaluation(companyUserId, userId, rank, comment);
             userEvaluationMapper.insert(userEvaluation);
             return true;
         }
         return false;
+    }
+
+    private UserEvaluation createUserEvaluation(String companyUserId, String userId, int rank, String comment) {
+        UserEvaluation userEvaluation = new UserEvaluation();
+        userEvaluation.setCompanyUser(companyUserId);
+        userEvaluation.setUserId(userId);
+        userEvaluation.setRank(rank);
+        userEvaluation.setComment(comment);
+        userEvaluation.setId(idGenerator.generate(UserEvaluation.class.getSimpleName()));
+        return userEvaluation;
     }
 
     public List<UserEvaluation> getUserEvaluation(String companyUserId,String userId) {

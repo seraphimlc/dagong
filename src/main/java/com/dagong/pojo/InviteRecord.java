@@ -1,5 +1,7 @@
 package com.dagong.pojo;
 
+import java.util.Date;
+
 public class InviteRecord {
     private String id;
 
@@ -10,6 +12,10 @@ public class InviteRecord {
     private String contactId;
 
     private String jobId;
+
+    private String comment;
+
+    private Date interviewTime;
 
     private Integer status;
 
@@ -51,6 +57,22 @@ public class InviteRecord {
 
     public void setJobId(String jobId) {
         this.jobId = jobId == null ? null : jobId.trim();
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment == null ? null : comment.trim();
+    }
+
+    public Date getInterviewTime() {
+        return interviewTime;
+    }
+
+    public void setInterviewTime(Date interviewTime) {
+        this.interviewTime = interviewTime;
     }
 
     public Integer getStatus() {

@@ -5,7 +5,7 @@ import java.util.Date;
 public class Job {
     private String id;
 
-    private String jobname;
+    private String jobName;
 
     private String companyId;
 
@@ -17,15 +17,25 @@ public class Job {
 
     private Integer jobType;
 
-    private Integer startsalary;
+    private Integer startSalary;
 
-    private Integer endsalary;
+    private Integer endSalary;
 
     private Integer bonus;
 
     private Integer royalty;
 
     private Integer discuss;
+
+    private Date modifyTime;
+
+    private Date startTime;
+
+    private Date endTime;
+
+    private String modifyUser;
+
+    private Integer status;
 
     public String getId() {
         return id;
@@ -35,12 +45,12 @@ public class Job {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getJobname() {
-        return jobname;
+    public String getJobName() {
+        return jobName;
     }
 
-    public void setJobname(String jobname) {
-        this.jobname = jobname == null ? null : jobname.trim();
+    public void setJobName(String jobName) {
+        this.jobName = jobName == null ? null : jobName.trim();
     }
 
     public String getCompanyId() {
@@ -83,20 +93,20 @@ public class Job {
         this.jobType = jobType;
     }
 
-    public Integer getStartsalary() {
-        return startsalary;
+    public Integer getStartSalary() {
+        return startSalary;
     }
 
-    public void setStartsalary(Integer startsalary) {
-        this.startsalary = startsalary;
+    public void setStartSalary(Integer startSalary) {
+        this.startSalary = startSalary;
     }
 
-    public Integer getEndsalary() {
-        return endsalary;
+    public Integer getEndSalary() {
+        return endSalary;
     }
 
-    public void setEndsalary(Integer endsalary) {
-        this.endsalary = endsalary;
+    public void setEndSalary(Integer endSalary) {
+        this.endSalary = endSalary;
     }
 
     public Integer getBonus() {
@@ -121,5 +131,45 @@ public class Job {
 
     public void setDiscuss(Integer discuss) {
         this.discuss = discuss;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getModifyUser() {
+        return modifyUser;
+    }
+
+    public void setModifyUser(String modifyUser) {
+        this.modifyUser = modifyUser == null ? null : modifyUser.trim();
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

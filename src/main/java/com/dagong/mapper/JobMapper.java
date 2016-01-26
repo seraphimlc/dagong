@@ -2,6 +2,8 @@ package com.dagong.mapper;
 
 import com.dagong.pojo.Job;
 
+import java.util.List;
+
 public interface JobMapper {
     int deleteByPrimaryKey(String id);
 
@@ -10,6 +12,8 @@ public interface JobMapper {
     int insertSelective(Job record);
 
     Job selectByPrimaryKey(String id);
+
+    List listJob(Job job);
 
     int updateByPrimaryKeySelective(Job record);
 

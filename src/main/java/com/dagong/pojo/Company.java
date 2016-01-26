@@ -7,6 +7,8 @@ public class Company {
 
     private String detail;
 
+    private Integer status;
+
     public String getId() {
         return id;
     }
@@ -29,5 +31,13 @@ public class Company {
 
     public void setDetail(String detail) {
         this.detail = detail == null ? null : detail.trim();
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

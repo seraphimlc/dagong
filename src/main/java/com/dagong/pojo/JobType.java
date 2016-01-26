@@ -5,7 +5,7 @@ public class JobType {
 
     private String name;
 
-    private String parentid;
+    private String parentId;
 
     public Integer getId() {
         return id;
@@ -23,11 +23,11 @@ public class JobType {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getParentid() {
-        return parentid;
+    public String getParentId() {
+        return parentId;
     }
 
-    public void setParentid(String parentid) {
-        this.parentid = parentid == null ? null : parentid.trim();
+    public void setParentId(String parentId) {
+        this.parentId = parentId == null ? null : parentId.trim();
     }
 }

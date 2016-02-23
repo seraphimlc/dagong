@@ -1,164 +1,297 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dagong.mapper.JobMapper">
-  <resultMap id="BaseResultMap" type="com.dagong.pojo.Job">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="company_id" jdbcType="VARCHAR" property="companyId" />
-    <result column="detail" jdbcType="VARCHAR" property="detail" />
-    <result column="need_number" jdbcType="INTEGER" property="needNumber" />
-    <result column="create_time" jdbcType="DATE" property="createTime" />
-    <result column="job_type" jdbcType="INTEGER" property="jobType" />
-    <result column="startsalary" jdbcType="INTEGER" property="startsalary" />
-    <result column="endsalary" jdbcType="INTEGER" property="endsalary" />
-    <result column="bonus" jdbcType="INTEGER" property="bonus" />
-    <result column="royalty" jdbcType="INTEGER" property="royalty" />
-    <result column="discuss" jdbcType="INTEGER" property="discuss" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, company_id, detail, need_number, create_time, job_type, startsalary, endsalary, 
-    bonus, royalty, discuss
+    <resultMap id="BaseResultMap" type="com.dagong.pojo.Job">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="job_Name" property="jobName" jdbcType="VARCHAR"/>
+        <result column="company_id" property="companyId" jdbcType="VARCHAR"/>
+        <result column="detail" property="detail" jdbcType="VARCHAR"/>
+        <result column="need_number" property="needNumber" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="job_type" property="jobType" jdbcType="INTEGER"/>
+        <result column="start_salary" property="startSalary" jdbcType="INTEGER"/>
+        <result column="end_salary" property="endSalary" jdbcType="INTEGER"/>
+        <result column="bonus" property="bonus" jdbcType="INTEGER"/>
+        <result column="royalty" property="royalty" jdbcType="INTEGER"/>
+        <result column="discuss" property="discuss" jdbcType="INTEGER"/>
+        <result column="modify_time" property="modifyTime" jdbcType="DATE"/>
+        <result column="start_time" property="startTime" jdbcType="DATE"/>
+        <result column="end_time" property="endTime" jdbcType="DATE"/>
+        <result column="modify_user" property="modifyUser" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, job_Name, company_id, detail, need_number, create_time, job_type, start_salary, 
+    end_salary, bonus, royalty, discuss, modify_time, start_time, end_time, modify_user, 
+    status
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from job
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from job
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="listJob" resultMap="BaseResultMap" parameterType="com.dagong.pojo.Job">
+        select
+        <include refid="Base_Column_List"/>
+        from job
+        where 1=1
+        <trim prefix=" and " suffixOverrides="and">
+            <if test="id!=null">
+                id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="jobName != null">
+                job_Name = #{jobName,jdbcType=VARCHAR} and
+            </if>
+            <if test="companyId != null">
+                company_id = #{companyId,jdbcType=VARCHAR} and
+            </if>
+            <if test="detail != null">
+                detail = #{detail,jdbcType=VARCHAR} and
+            </if>
+            <if test="needNumber != null">
+                need_number = #{needNumber,jdbcType=INTEGER} and
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=DATE} and
+            </if>
+            <if test="jobType != null">
+                job_type = #{jobType,jdbcType=INTEGER} and
+            </if>
+            <if test="startSalary != null">
+                start_salary = #{startSalary,jdbcType=INTEGER} and
+            </if>
+            <if test="endSalary != null">
+                end_salary = #{endSalary,jdbcType=INTEGER} and
+            </if>
+            <if test="bonus != null">
+                bonus = #{bonus,jdbcType=INTEGER} and
+            </if>
+            <if test="royalty != null">
+                royalty = #{royalty,jdbcType=INTEGER} and
+            </if>
+            <if test="discuss != null">
+                discuss = #{discuss,jdbcType=INTEGER} and
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=DATE} and
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=DATE} and
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=DATE} and
+            </if>
+            <if test="modifyUser != null">
+                modify_user = #{modifyUser,jdbcType=VARCHAR} and
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER}
+            </if>
+        </trim>
+        limit 0,5
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from job
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.dagong.pojo.Job">
-    insert into job (id, company_id, detail, 
-      need_number, create_time, job_type, 
-      startsalary, endsalary, bonus, 
-      royalty, discuss)
-    values (#{id,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
-      #{needNumber,jdbcType=INTEGER}, #{createTime,jdbcType=DATE}, #{jobType,jdbcType=INTEGER}, 
-      #{startsalary,jdbcType=INTEGER}, #{endsalary,jdbcType=INTEGER}, #{bonus,jdbcType=INTEGER}, 
-      #{royalty,jdbcType=INTEGER}, #{discuss,jdbcType=INTEGER})
+    <insert id="insert" parameterType="com.dagong.pojo.Job">
+    insert into job (id, job_Name, company_id, 
+      detail, need_number, create_time, 
+      job_type, start_salary, end_salary, 
+      bonus, royalty, discuss, 
+      modify_time, start_time, end_time, 
+      modify_user, status)
+    values (#{id,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{detail,jdbcType=VARCHAR}, #{needNumber,jdbcType=INTEGER}, #{createTime,jdbcType=DATE}, 
+      #{jobType,jdbcType=INTEGER}, #{startSalary,jdbcType=INTEGER}, #{endSalary,jdbcType=INTEGER}, 
+      #{bonus,jdbcType=INTEGER}, #{royalty,jdbcType=INTEGER}, #{discuss,jdbcType=INTEGER}, 
+      #{modifyTime,jdbcType=DATE}, #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, 
+      #{modifyUser,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.dagong.pojo.Job">
-    insert into job
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="companyId != null">
-        company_id,
-      </if>
-      <if test="detail != null">
-        detail,
-      </if>
-      <if test="needNumber != null">
-        need_number,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="jobType != null">
-        job_type,
-      </if>
-      <if test="startsalary != null">
-        startsalary,
-      </if>
-      <if test="endsalary != null">
-        endsalary,
-      </if>
-      <if test="bonus != null">
-        bonus,
-      </if>
-      <if test="royalty != null">
-        royalty,
-      </if>
-      <if test="discuss != null">
-        discuss,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="companyId != null">
-        #{companyId,jdbcType=VARCHAR},
-      </if>
-      <if test="detail != null">
-        #{detail,jdbcType=VARCHAR},
-      </if>
-      <if test="needNumber != null">
-        #{needNumber,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=DATE},
-      </if>
-      <if test="jobType != null">
-        #{jobType,jdbcType=INTEGER},
-      </if>
-      <if test="startsalary != null">
-        #{startsalary,jdbcType=INTEGER},
-      </if>
-      <if test="endsalary != null">
-        #{endsalary,jdbcType=INTEGER},
-      </if>
-      <if test="bonus != null">
-        #{bonus,jdbcType=INTEGER},
-      </if>
-      <if test="royalty != null">
-        #{royalty,jdbcType=INTEGER},
-      </if>
-      <if test="discuss != null">
-        #{discuss,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.dagong.pojo.Job">
+    <insert id="insertSelective" parameterType="com.dagong.pojo.Job">
+        insert into job
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="jobName != null">
+                job_Name,
+            </if>
+            <if test="companyId != null">
+                company_id,
+            </if>
+            <if test="detail != null">
+                detail,
+            </if>
+            <if test="needNumber != null">
+                need_number,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="jobType != null">
+                job_type,
+            </if>
+            <if test="startSalary != null">
+                start_salary,
+            </if>
+            <if test="endSalary != null">
+                end_salary,
+            </if>
+            <if test="bonus != null">
+                bonus,
+            </if>
+            <if test="royalty != null">
+                royalty,
+            </if>
+            <if test="discuss != null">
+                discuss,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="modifyUser != null">
+                modify_user,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="jobName != null">
+                #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="detail != null">
+                #{detail,jdbcType=VARCHAR},
+            </if>
+            <if test="needNumber != null">
+                #{needNumber,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATE},
+            </if>
+            <if test="jobType != null">
+                #{jobType,jdbcType=INTEGER},
+            </if>
+            <if test="startSalary != null">
+                #{startSalary,jdbcType=INTEGER},
+            </if>
+            <if test="endSalary != null">
+                #{endSalary,jdbcType=INTEGER},
+            </if>
+            <if test="bonus != null">
+                #{bonus,jdbcType=INTEGER},
+            </if>
+            <if test="royalty != null">
+                #{royalty,jdbcType=INTEGER},
+            </if>
+            <if test="discuss != null">
+                #{discuss,jdbcType=INTEGER},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=DATE},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=DATE},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=DATE},
+            </if>
+            <if test="modifyUser != null">
+                #{modifyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dagong.pojo.Job">
+        update job
+        <set>
+            <if test="jobName != null">
+                job_Name = #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                company_id = #{companyId,jdbcType=VARCHAR},
+            </if>
+            <if test="detail != null">
+                detail = #{detail,jdbcType=VARCHAR},
+            </if>
+            <if test="needNumber != null">
+                need_number = #{needNumber,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=DATE},
+            </if>
+            <if test="jobType != null">
+                job_type = #{jobType,jdbcType=INTEGER},
+            </if>
+            <if test="startSalary != null">
+                start_salary = #{startSalary,jdbcType=INTEGER},
+            </if>
+            <if test="endSalary != null">
+                end_salary = #{endSalary,jdbcType=INTEGER},
+            </if>
+            <if test="bonus != null">
+                bonus = #{bonus,jdbcType=INTEGER},
+            </if>
+            <if test="royalty != null">
+                royalty = #{royalty,jdbcType=INTEGER},
+            </if>
+            <if test="discuss != null">
+                discuss = #{discuss,jdbcType=INTEGER},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=DATE},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=DATE},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=DATE},
+            </if>
+            <if test="modifyUser != null">
+                modify_user = #{modifyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.dagong.pojo.Job">
     update job
-    <set>
-      <if test="companyId != null">
-        company_id = #{companyId,jdbcType=VARCHAR},
-      </if>
-      <if test="detail != null">
-        detail = #{detail,jdbcType=VARCHAR},
-      </if>
-      <if test="needNumber != null">
-        need_number = #{needNumber,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=DATE},
-      </if>
-      <if test="jobType != null">
-        job_type = #{jobType,jdbcType=INTEGER},
-      </if>
-      <if test="startsalary != null">
-        startsalary = #{startsalary,jdbcType=INTEGER},
-      </if>
-      <if test="endsalary != null">
-        endsalary = #{endsalary,jdbcType=INTEGER},
-      </if>
-      <if test="bonus != null">
-        bonus = #{bonus,jdbcType=INTEGER},
-      </if>
-      <if test="royalty != null">
-        royalty = #{royalty,jdbcType=INTEGER},
-      </if>
-      <if test="discuss != null">
-        discuss = #{discuss,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.dagong.pojo.Job">
-    update job
-    set company_id = #{companyId,jdbcType=VARCHAR},
+    set job_Name = #{jobName,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
       detail = #{detail,jdbcType=VARCHAR},
       need_number = #{needNumber,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=DATE},
       job_type = #{jobType,jdbcType=INTEGER},
-      startsalary = #{startsalary,jdbcType=INTEGER},
-      endsalary = #{endsalary,jdbcType=INTEGER},
+      start_salary = #{startSalary,jdbcType=INTEGER},
+      end_salary = #{endSalary,jdbcType=INTEGER},
       bonus = #{bonus,jdbcType=INTEGER},
       royalty = #{royalty,jdbcType=INTEGER},
-      discuss = #{discuss,jdbcType=INTEGER}
+      discuss = #{discuss,jdbcType=INTEGER},
+      modify_time = #{modifyTime,jdbcType=DATE},
+      start_time = #{startTime,jdbcType=DATE},
+      end_time = #{endTime,jdbcType=DATE},
+      modify_user = #{modifyUser,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -3,15 +3,20 @@ package com.dagong.service;
 import com.dagong.mapper.JobLogMapper;
 import com.dagong.mapper.JobMapper;
 import com.dagong.mapper.JobTypeMapper;
+import com.dagong.mapper.WantJobMapper;
 import com.dagong.pojo.Job;
 import com.dagong.pojo.JobLog;
+import com.dagong.pojo.WantJob;
 import com.dagong.util.IdGenerator;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
 /**
  * Created by liuchang on 16/1/17.
@@ -26,7 +31,7 @@ public class JobService {
     private static int STATUS_CANCEL = 4;
     private static int STATUS_DELETE = 5;
 
-    private int pageSize=10;
+    private int pageSize = 10;
 
     @Resource
     private JobTypeMapper jobTypeMapper;
@@ -39,8 +44,37 @@ public class JobService {
     private JobLogMapper jobLogMapper;
 
     @Resource
+    WantJobMapper wantJobMapper;
+
+    @Resource
+    UserService userService;
+
+    @Resource
     private IdGenerator idGenerator;
 
+    public List<Job> searchJob(String userId) {
+
+        List<WantJob> wantJobs = wantJobMapper.selectByUserId(userId);
+        return searchJob(wantJobs);
+    }
+
+    private List<Job> searchJob(List<WantJob> wantJobs) {
+        List<Job> jobList = Lists.newArrayList();
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(wantJobs.size()+1);
+        for (WantJob wantJob:wantJobs){
+            new Thread(new GetJobTask(jobMapper,wantJob.getJobType(),jobList,cyclicBarrier)).start();
+        }
+        try {
+            cyclicBarrier.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (BrokenBarrierException e) {
+            e.printStackTrace();
+        }
+        System.out.println("jobList = " + jobList.size());
+        return jobList;
+
+    }
 
     public boolean createJob(String companyUserId, String companyId, String jobName, Integer needNumber, Integer jobType, String detail, Integer startSalary, Integer endSalary, Integer royalty, Integer bonus, Integer discuss, Date startTime, Date endTime, boolean isDeploy) {
         Job job = createJob(companyId, jobName, needNumber, jobType, detail, startSalary, endSalary, royalty, bonus, discuss, startTime, endTime, isDeploy);
@@ -104,8 +138,8 @@ public class JobService {
         return true;
     }
 
-    public List<Job> listJob(String companyId,int pageNum) {
-        PageHelper.startPage(pageNum,pageSize);
+    public List<Job> listJob(String companyId, int pageNum) {
+        PageHelper.startPage(pageNum, pageSize);
         Job job = new Job();
         job.setCompanyId(companyId);
         return jobMapper.listJob(job);
@@ -149,4 +183,35 @@ public class JobService {
     }
 
 
+}
+
+class GetJobTask implements Runnable {
+    private CyclicBarrier barrier;
+    private Integer jobType;
+    private JobMapper jobMapper;
+    private List jobList;
+
+    public GetJobTask(JobMapper jobMapper, Integer jobType, List jobList,CyclicBarrier barrier) {
+        this.jobMapper = jobMapper;
+        this.jobType = jobType;
+        this.barrier = barrier;
+        this.jobList = jobList;
+    }
+
+    @Override
+    public void run() {
+        try {
+            Job job = new Job();
+            job.setJobType(jobType);
+            List list = jobMapper.listJob(job);
+
+            jobList.addAll(list);
+            barrier.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (BrokenBarrierException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

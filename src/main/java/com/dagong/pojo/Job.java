@@ -1,8 +1,11 @@
 package com.dagong.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Job {
+public class Job implements Serializable{
+
+    private static final long serialVersionUID = 2357446539254499488L;
     private String id;
 
     private String jobName;
@@ -171,5 +174,28 @@ public class Job {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Job{" +
+                "id='" + id + '\'' +
+                ", jobName='" + jobName + '\'' +
+                ", companyId='" + companyId + '\'' +
+                ", detail='" + detail + '\'' +
+                ", needNumber=" + needNumber +
+                ", createTime=" + createTime +
+                ", jobType=" + jobType +
+                ", startSalary=" + startSalary +
+                ", endSalary=" + endSalary +
+                ", bonus=" + bonus +
+                ", royalty=" + royalty +
+                ", discuss=" + discuss +
+                ", modifyTime=" + modifyTime +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", modifyUser='" + modifyUser + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

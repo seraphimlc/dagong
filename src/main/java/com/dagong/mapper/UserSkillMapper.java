@@ -11,6 +11,8 @@ public interface UserSkillMapper {
 
     UserSkill selectByPrimaryKey(String id);
 
+    UserSkill selectByUserId(String userId);
+
     int updateByPrimaryKeySelective(UserSkill record);
 
     int updateByPrimaryKey(UserSkill record);

@@ -17,6 +17,22 @@
     from userevaluation
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="getListSelective" parameterType="com.dagong.pojo.UserEvaluation" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jobevaluation
+    where  <trim suffixOverrides="and" >
+    <if test="id != null" >
+      id=  #{id,jdbcType=VARCHAR} and
+    </if>
+    <if test="userId != null" >
+      user_id= #{userId,jdbcType=VARCHAR} and
+    </if>
+    <if test="companyUserId != null" >
+      company_user= #{companyUserId,jdbcType=VARCHAR} and
+    </if>
+  </trim>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from userevaluation
     where id = #{id,jdbcType=VARCHAR}

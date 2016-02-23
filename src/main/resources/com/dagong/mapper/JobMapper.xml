@@ -90,6 +90,7 @@
                 status = #{status,jdbcType=INTEGER}
             </if>
         </trim>
+        limit 0,5
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

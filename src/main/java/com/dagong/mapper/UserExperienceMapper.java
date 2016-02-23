@@ -14,4 +14,6 @@ public interface UserExperienceMapper {
     int updateByPrimaryKeySelective(UserExperience record);
 
     int updateByPrimaryKey(UserExperience record);
+
+    UserExperience selectByUserId(String userId);
 }

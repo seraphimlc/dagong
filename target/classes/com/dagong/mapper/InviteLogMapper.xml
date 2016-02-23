@@ -5,7 +5,7 @@
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="invite_id" jdbcType="VARCHAR" property="inviteId" />
     <result column="log_time" jdbcType="DATE" property="logTime" />
-    <result column="modify_user" jdbcType="INTEGER" property="modifyUser" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
     <result column="old_status" jdbcType="INTEGER" property="oldStatus" />
     <result column="new_status" jdbcType="INTEGER" property="newStatus" />
     <result column="modify_username" jdbcType="VARCHAR" property="modifyUsername" />
@@ -28,7 +28,7 @@
       modify_user, old_status, new_status, 
       modify_username)
     values (#{id,jdbcType=VARCHAR}, #{inviteId,jdbcType=VARCHAR}, #{logTime,jdbcType=DATE}, 
-      #{modifyUser,jdbcType=INTEGER}, #{oldStatus,jdbcType=INTEGER}, #{newStatus,jdbcType=INTEGER}, 
+      #{modifyUser,jdbcType=VARCHAR}, #{oldStatus,jdbcType=INTEGER}, #{newStatus,jdbcType=INTEGER},
       #{modifyUsername,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.dagong.pojo.InviteLog">
@@ -67,7 +67,7 @@
         #{logTime,jdbcType=DATE},
       </if>
       <if test="modifyUser != null">
-        #{modifyUser,jdbcType=INTEGER},
+        #{modifyUser,jdbcType=VARCHAR},
       </if>
       <if test="oldStatus != null">
         #{oldStatus,jdbcType=INTEGER},
@@ -90,7 +90,7 @@
         log_time = #{logTime,jdbcType=DATE},
       </if>
       <if test="modifyUser != null">
-        modify_user = #{modifyUser,jdbcType=INTEGER},
+        modify_user = #{modifyUser,jdbcType=VARCHAR},
       </if>
       <if test="oldStatus != null">
         old_status = #{oldStatus,jdbcType=INTEGER},
@@ -108,7 +108,7 @@
     update invitelog
     set invite_id = #{inviteId,jdbcType=VARCHAR},
       log_time = #{logTime,jdbcType=DATE},
-      modify_user = #{modifyUser,jdbcType=INTEGER},
+      modify_user = #{modifyUser,jdbcType=VARCHAR},
       old_status = #{oldStatus,jdbcType=INTEGER},
       new_status = #{newStatus,jdbcType=INTEGER},
       modify_username = #{modifyUsername,jdbcType=VARCHAR}

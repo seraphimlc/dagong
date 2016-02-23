@@ -16,7 +16,6 @@ import java.util.Date;
  * Created by liuchang on 16/1/17.
  */
 @Service
-
 public class ApplyService {
     private static int STATUS_INIT = 1;
     private static int STATUS_READ = 2;

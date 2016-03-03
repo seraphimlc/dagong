@@ -7,6 +7,9 @@ import java.util.List;
 public interface WantJobMapper {
     int deleteByPrimaryKey(String id);
 
+
+    int deleteByUserId(String userId);
+
     int insert(WantJob record);
 
     int insertSelective(WantJob record);

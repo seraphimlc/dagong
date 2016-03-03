@@ -5,7 +5,7 @@ public class WantEnvironment {
 
     private String userId;
 
-    private String envIds;
+    private Integer envId;
 
     public String getId() {
         return id;
@@ -23,11 +23,11 @@ public class WantEnvironment {
         this.userId = userId == null ? null : userId.trim();
     }
 
-    public String getEnvIds() {
-        return envIds;
+    public Integer getEnvId() {
+        return envId;
     }
 
-    public void setEnvIds(String envIds) {
-        this.envIds = envIds == null ? null : envIds.trim();
+    public void setEnvId(Integer envId) {
+        this.envId = envId;
     }
 }

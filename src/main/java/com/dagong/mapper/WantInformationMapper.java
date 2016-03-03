@@ -11,6 +11,8 @@ public interface WantInformationMapper {
 
     WantInformation selectByPrimaryKey(String id);
 
+    WantInformation selectByUserIdAndKey(String userId,String key);
+
     int updateByPrimaryKeySelective(WantInformation record);
 
     int updateByPrimaryKey(WantInformation record);

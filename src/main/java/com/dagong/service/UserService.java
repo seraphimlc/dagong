@@ -36,6 +36,7 @@ public class UserService {
     @Resource
     private WantInformationMapper wantInformationMapper;
 
+
     @Resource
     private IdGenerator idGenerator;
 
@@ -92,7 +93,7 @@ public class UserService {
     public boolean addWantJob(String userId, int[] jobIds) {
         List<WantJob> wantJobs = wantJobMapper.selectByUserId(userId);
         int existsSize = ListUtil.isEmpty(wantJobs) ? 0 : wantJobs.size();
-        for (int i = 0; i < Math.min(MAX_WANT_JOB-existsSize,jobIds.length); i++) {
+        for (int i = 0; i < Math.min(MAX_WANT_JOB - existsSize, jobIds.length); i++) {
             WantJob wantJob = new WantJob();
             wantJob.setId(idGenerator.generate(WantJob.class.getSimpleName()));
             wantJob.setUserId(userId);
@@ -102,7 +103,7 @@ public class UserService {
         return true;
     }
 
-    public boolean clearWantJob(String userId){
+    public boolean clearWantJob(String userId) {
         wantJobMapper.deleteByUserId(userId);
         return true;
     }
@@ -110,7 +111,7 @@ public class UserService {
     public boolean addWantEnvironment(String userId, int[] envIds) {
         List<WantEnvironment> wantEnvironments = wantEnvironmentMapper.selectByUserId(userId);
         int existsSize = ListUtil.isEmpty(wantEnvironments) ? 0 : wantEnvironments.size();
-        for (int i = 0; i < Math.min(MAX_WANT_ENVIRONMENT-existsSize,envIds.length); i++) {
+        for (int i = 0; i < Math.min(MAX_WANT_ENVIRONMENT - existsSize, envIds.length); i++) {
             WantEnvironment wantEnvironment = new WantEnvironment();
             wantEnvironment.setId(idGenerator.generate(WantEnvironment.class.getSimpleName()));
             wantEnvironment.setUserId(userId);
@@ -125,27 +126,25 @@ public class UserService {
         return true;
     }
 
-    public boolean clearWantJobs(String userId){
+    public boolean clearWantJobs(String userId) {
         wantEnvironmentMapper.deleteByUserId(userId);
         return true;
     }
 
-    public boolean saveWantInformation(String userId,UserInformationKey userInformationKey,String value){
-//        WantInformation wantInformation = new WantInformation();
-//        wantInformation.setUserId(userId);
-//        wantInformation.setKey(userInformationKey.getName());
-      WantInformation wantInformation=  wantInformationMapper.selectByUserIdAndKey(userId, userInformationKey.getName());
-     if(wantInformation==null){
-         wantInformation = new WantInformation();
-         wantInformation.setId(idGenerator.generate(WantInformation.class.getSimpleName()));
-        wantInformation.setUserId(userId);
-        wantInformation.setKey(userInformationKey.getName());
-         wantInformation.setValue(value);
-         wantInformationMapper.insert(wantInformation);
-     }else{
-         wantInformation.setValue(value);
-         wantInformationMapper.updateByPrimaryKeySelective(wantInformation);
-     }
+    public boolean saveWantInformation(String userId, UserInformationKey userInformationKey, String value) {
+        WantInformation wantInformation = wantInformationMapper.selectByUserIdAndKey(userId, userInformationKey.getName());
+        if (wantInformation == null) {
+            wantInformation = new WantInformation();
+            wantInformation.setId(idGenerator.generate(WantInformation.class.getSimpleName()));
+            wantInformation.setUserId(userId);
+            wantInformation.setKey(userInformationKey.getName());
+            wantInformation.setValue(value);
+            wantInformationMapper.insert(wantInformation);
+        } else {
+            wantInformation.setValue(value);
+            wantInformationMapper.updateByPrimaryKeySelective(wantInformation);
+        }
         return true;
     }
+
 }

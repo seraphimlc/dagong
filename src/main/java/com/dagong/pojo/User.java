@@ -1,14 +1,16 @@
 package com.dagong.pojo;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 public class User {
     private String id;
 
-    private String username;
+    private String userName;
 
     private String password;
-
+    @NotNull
     private String phone;
 
     private String wechat;
@@ -17,9 +19,15 @@ public class User {
 
     private String email;
 
+    @NotNull
     private Date brithday;
 
-    private String cardid;
+    @Pattern(regexp="\\d{17}([0-9]|x)")
+    private String cardId;
+    @NotNull
+    private String name;
+    @NotNull
+    private Integer gender;
 
     public String getId() {
         return id;
@@ -29,12 +37,12 @@ public class User {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
     }
 
     public String getPassword() {
@@ -85,11 +93,28 @@ public class User {
         this.brithday = brithday;
     }
 
-    public String getCardid() {
-        return cardid;
+    public String getCardId() {
+        return cardId;
     }
 
-    public void setCardid(String cardid) {
-        this.cardid = cardid == null ? null : cardid.trim();
+    public void setCardId(String cardId) {
+        this.cardId = cardId == null ? null : cardId.trim();
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
 }

@@ -1,8 +1,8 @@
 package com.dagong.controller;
 
 import com.dagong.service.ApplyService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.dagong.service.UserService;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -10,15 +10,20 @@ import javax.annotation.Resource;
  * Created by liuchang on 16/1/28.
  */
 @RestController
-@RequestMapping("/apply")
+//@RequestMapping("/apply")
 public class ApplyController {
     @Resource
     private ApplyService applyService;
+    @Resource
+    private UserService userService;
 
-    @RequestMapping("/{jobId}/{companyId}/{userId}")
-    public String show(String jobId, String companyId, String userId) {
 
-        return applyService.apply(userId, companyId, jobId) + "";
+    @RequestMapping("/apply.do")
+    @ResponseBody
+    public String applyJob(@CookieValue("user") String user, @RequestParam("companyId") String companyId, @RequestParam("jobId") String jobId) {
+        String userId = userService.getUserIdFromCookie(user);
+        applyService.apply(userId, companyId, jobId);
+        return "true";
     }
 
 }

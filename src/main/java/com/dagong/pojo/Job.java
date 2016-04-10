@@ -1,16 +1,15 @@
 package com.dagong.pojo;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class Job implements Serializable{
-
-    private static final long serialVersionUID = 2357446539254499488L;
+public class Job {
     private String id;
 
     private String jobName;
 
     private String companyId;
+
+    private String companyName;
 
     private String detail;
 
@@ -19,6 +18,8 @@ public class Job implements Serializable{
     private Date createTime;
 
     private Integer jobType;
+
+    private String jobTypeName;
 
     private Integer startSalary;
 
@@ -39,6 +40,18 @@ public class Job implements Serializable{
     private String modifyUser;
 
     private Integer status;
+
+    private String address;
+
+    private String contractor;
+
+    private String phoneNumber;
+
+    private Integer degree;
+
+    private String workedYear;
+
+    private String welfare;
 
     public String getId() {
         return id;
@@ -176,6 +189,71 @@ public class Job implements Serializable{
         this.status = status;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    public String getContractor() {
+        return contractor;
+    }
+
+    public void setContractor(String contractor) {
+        this.contractor = contractor == null ? null : contractor.trim();
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber == null ? null : phoneNumber.trim();
+    }
+
+    public Integer getDegree() {
+        return degree;
+    }
+
+    public void setDegree(Integer degree) {
+        this.degree = degree;
+    }
+
+    public String getWorkedYear() {
+        return workedYear;
+    }
+
+    public void setWorkedYear(String workedYear) {
+        this.workedYear = workedYear == null ? null : workedYear.trim();
+    }
+
+    public String getWelfare() {
+        return welfare;
+    }
+
+    public void setWelfare(String welfare) {
+        this.welfare = welfare == null ? null : welfare.trim();
+    }
+
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getJobTypeName() {
+        return jobTypeName;
+    }
+
+    public void setJobTypeName(String jobTypeName) {
+        this.jobTypeName = jobTypeName;
+    }
+
     @Override
     public String toString() {
         return "Job{" +
@@ -196,6 +274,12 @@ public class Job implements Serializable{
                 ", endTime=" + endTime +
                 ", modifyUser='" + modifyUser + '\'' +
                 ", status=" + status +
+                ", address='" + address + '\'' +
+                ", contractor='" + contractor + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", degree=" + degree +
+                ", workedYear='" + workedYear + '\'' +
+                ", welfare='" + welfare + '\'' +
                 '}';
     }
 }

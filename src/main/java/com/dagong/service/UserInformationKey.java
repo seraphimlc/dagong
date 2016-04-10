@@ -6,7 +6,7 @@ package com.dagong.service;
 public enum UserInformationKey {
     DEFAULT_ADDRESS_KEY("defaultAddress"),
     OPEN_PHONENUMBER_KEY("openPhoneNumber"),
-    ßOPEN_RESUME_KEY("openResume");
+    OPEN_RESUME_KEY("openResume");
 
     private String name;
 

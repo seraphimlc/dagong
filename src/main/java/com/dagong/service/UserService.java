@@ -2,12 +2,14 @@ package com.dagong.service;
 
 import com.dagong.mapper.*;
 import com.dagong.pojo.*;
+import com.dagong.util.BeanValidator;
 import com.dagong.util.IdGenerator;
 import com.dagong.util.ListUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,6 +20,10 @@ import java.util.List;
 public class UserService {
     private static int MAX_WANT_JOB = 5;
     private static int MAX_WANT_ENVIRONMENT = 5;
+    private static int VALIDATE_CODE_LENGTH = 4;
+    private static int VALIDATE_CODE_EXPIRED_TIME = 1000 * 60;
+    private static Jedis jedisClient = new Jedis("172.16.54.144", 6379);
+
     @Resource
     private UserMapper userMapper;
 
@@ -36,22 +42,16 @@ public class UserService {
     @Resource
     private WantInformationMapper wantInformationMapper;
 
+    @Resource
+    private SendMessageService sendMessageService;
 
     @Resource
     private IdGenerator idGenerator;
 
-    public User register(String userName, String cardid, String email, String phone, String wechat, String qq,
-                         String password, Date birthday) {
-        User user = new User();
+    public User register(User user) {
         user.setId(idGenerator.generate(User.class.getSimpleName()));
-        user.setUsername(userName);
-        user.setCardid(cardid);
-        user.setEmail(email);
-        user.setPhone(phone);
-        user.setWechat(wechat);
-        user.setQq(qq);
-        user.setPassword(password);
-        user.setBrithday(birthday);
+
+        BeanValidator.validate(user);
         userMapper.insert(user);
         return user;
     }
@@ -146,5 +146,46 @@ public class UserService {
         }
         return true;
     }
+
+    public boolean validateCode(String phoneNumber, String validateCode) {
+        String cacheCode = jedisClient.get(phoneNumber);
+        if (StringUtils.isNotBlank(cacheCode)) {
+            jedisClient.del(phoneNumber);
+            if (validateCode.equals(cacheCode)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public String generateCookieForUser(String userId) {
+        String cookieValue = idGenerator.generateRandom("user");
+        jedisClient.setex(cookieValue, 24 * 60 * 60, userId);
+        return cookieValue;
+    }
+
+    public String getUserIdFromCookie(String cookieValue) {
+        return jedisClient.get(cookieValue);
+    }
+
+    public boolean sendValidatePhoneNumberCode(String phoneNumber) {
+        String validateCode = jedisClient.get(phoneNumber);
+        if (StringUtils.isNotEmpty(validateCode)) {
+            return true;
+
+        }
+        validateCode = IdGenerator.generateValidateCode(VALIDATE_CODE_LENGTH);
+        jedisClient.setex(phoneNumber, VALIDATE_CODE_EXPIRED_TIME, validateCode);
+        sendMessageService.sendMessage(phoneNumber, getMessageFromTemplate(validateCode));
+        return true;
+    }
+
+    private String getMessageFromTemplate(String message) {
+        return "验证码:[" + message + "];打工宝.";
+    }
+
 
 }

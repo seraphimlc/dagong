@@ -16,7 +16,7 @@
     <bean id="layoutViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.velocity.VelocityLayoutView" />
         <property name="toolboxConfigLocation" value="classpath:/base/velocity-tools.xml" />
-        <property name="prefix" value="/view/"/>
+        <property name="prefix" value="/"/>
         <property name="suffix" value=".vm" />
         <property name="layoutUrl" value="/view/common/layout/default.vm" />
         <property name="layoutKey" value="layout" />

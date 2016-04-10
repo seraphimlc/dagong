@@ -26,6 +26,10 @@
     delete from wantjob
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteByUserId" parameterType="java.lang.String">
+    delete from wantjob
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.dagong.pojo.WantJob">
     insert into wantjob (id, user_id, job_type, 
       job_name)

@@ -33,13 +33,14 @@ public class CompanyService {
     private static int COMPANY_STATUS_SUCCESS = 2;
     private static int COMPANY_STATUS_FAIL = 3;
 
-    public boolean createCompany(String name, String detail) {
+    public Company createCompany(String name, String detail) {
         Company company = new Company();
         company.setId(idGenerator.generate(Company.class.getSimpleName()));
         company.setDetail(detail);
         company.setStatus(COMPANY_STATUS_INIT);
         company.setName(name);
-        return true;
+        companyMapper.insert(company);
+        return company;
     }
 
     public boolean modifyCompany(String companyId, String name, String detail) {
@@ -98,6 +99,10 @@ public class CompanyService {
     public boolean deleteContact(String contactId) {
         contactMapper.deleteByPrimaryKey(contactId);
         return true;
+    }
+
+    public Company getCompanyByName(String name){
+        return companyMapper.selectByName(name);
     }
 
     public boolean createCompanyUser(String companyId, String username, String password, String phone) {

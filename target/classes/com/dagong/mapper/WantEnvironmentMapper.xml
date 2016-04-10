@@ -4,10 +4,10 @@
   <resultMap id="BaseResultMap" type="com.dagong.pojo.WantEnvironment">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="env_ids" jdbcType="VARCHAR" property="envIds" />
+    <result column="env_id" jdbcType="INTEGER" property="envId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, env_ids
+    id, user_id, env_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -15,14 +15,26 @@
     from wantenvironment
     where id = #{id,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wantenvironment
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from wantenvironment
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+
+  <delete id="deleteByUserId" parameterType="java.lang.String">
+    delete from wantenvironment
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.dagong.pojo.WantEnvironment">
-    insert into wantenvironment (id, user_id, env_ids
+    insert into wantenvironment (id, user_id, env_id
       )
-    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{envIds,jdbcType=VARCHAR}
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{envId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.dagong.pojo.WantEnvironment">
@@ -34,8 +46,8 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="envIds != null">
-        env_ids,
+      <if test="envId != null">
+        env_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -45,8 +57,8 @@
       <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="envIds != null">
-        #{envIds,jdbcType=VARCHAR},
+      <if test="envId != null">
+        #{envId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -56,8 +68,8 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="envIds != null">
-        env_ids = #{envIds,jdbcType=VARCHAR},
+      <if test="envId != null">
+        env_id = #{envId,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -65,7 +77,7 @@
   <update id="updateByPrimaryKey" parameterType="com.dagong.pojo.WantEnvironment">
     update wantenvironment
     set user_id = #{userId,jdbcType=VARCHAR},
-      env_ids = #{envIds,jdbcType=VARCHAR}
+      env_id = #{envId,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

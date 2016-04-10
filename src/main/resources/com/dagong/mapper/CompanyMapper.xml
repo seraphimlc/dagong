@@ -16,6 +16,16 @@
     from company
     where id = #{id,jdbcType=VARCHAR}
   </select>
+
+
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from company
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from company
     where id = #{id,jdbcType=VARCHAR}

@@ -131,5 +131,9 @@ public class CompanyService {
         return true;
     }
 
+    public Company getCompanyById(String companyId){
+        return companyMapper.selectByPrimaryKey(companyId);
+    }
+
 
 }

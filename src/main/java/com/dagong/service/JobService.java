@@ -1,9 +1,13 @@
 package com.dagong.service;
 
+import com.alibaba.rocketmq.client.exception.MQBrokerException;
+import com.alibaba.rocketmq.client.exception.MQClientException;
+import com.alibaba.rocketmq.remoting.exception.RemotingException;
 import com.dagong.mapper.JobLogMapper;
 import com.dagong.mapper.JobMapper;
 import com.dagong.mapper.JobTypeMapper;
 import com.dagong.mapper.WantJobMapper;
+import com.dagong.mq.SendMessageWrapper;
 import com.dagong.pojo.Job;
 import com.dagong.pojo.JobLog;
 import com.dagong.pojo.WantJob;
@@ -56,6 +60,9 @@ public class JobService {
     @Resource
     private SearchService searchService;
 
+    @Resource(name = "jobMessageSender")
+    private SendMessageWrapper sendMessageWrapper;
+
     public List<Job> searchJob(String userId) {
 
         List<WantJob> wantJobs = wantJobMapper.selectByUserId(userId);
@@ -66,7 +73,8 @@ public class JobService {
         List<WantJob> wantJobs = wantJobMapper.selectByUserId(userId);
         return searchJobFromIndex(wantJobs);
     }
-    private List<Map> searchJobFromIndex(List<WantJob> wantJobs){
+
+    private List<Map> searchJobFromIndex(List<WantJob> wantJobs) {
         List<Map> jobs = new ArrayList<>();
         wantJobs.forEach(wantJob -> {
             jobs.addAll(searchService.searchJobByType(wantJob.getJobType()));
@@ -94,16 +102,27 @@ public class JobService {
 
     public boolean createJob(String companyUserId, String companyId, String jobName, Integer needNumber, Integer jobType, String detail, Integer startSalary, Integer endSalary, Integer royalty, Integer bonus, Integer discuss, Date startTime, Date endTime, boolean isDeploy) {
         Job job = createJob(companyId, jobName, needNumber, jobType, detail, startSalary, endSalary, royalty, bonus, discuss, startTime, endTime, isDeploy);
-        JobLog jobLog = createJobLog(companyUserId, job);
-        jobMapper.insert(job);
-        jobLogMapper.insert(jobLog);
+        createJob(job,companyUserId);
+
         return true;
     }
 
-    public boolean createJob(Job job) {
-        JobLog jobLog = createJobLog("lc", job);
+    public boolean createJob(Job job,String companyUserId) {
+        JobLog jobLog = createJobLog(companyUserId, job);
         jobMapper.insert(job);
         jobLogMapper.insert(jobLog);
+        try {
+            sendMessageWrapper.sendMessage("createJob", job.getId());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (RemotingException e) {
+            e.printStackTrace();
+        } catch (MQClientException e) {
+            e.printStackTrace();
+        } catch (MQBrokerException e) {
+            e.printStackTrace();
+        }
+
         return true;
     }
 
@@ -158,6 +177,17 @@ public class JobService {
         JobLog jobLog = createJobLog(companyUserId, job);
         jobMapper.updateByPrimaryKeySelective(job);
         jobLogMapper.insert(jobLog);
+        try {
+            sendMessageWrapper.sendMessage("modifyJob",job.getId());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (RemotingException e) {
+            e.printStackTrace();
+        } catch (MQClientException e) {
+            e.printStackTrace();
+        } catch (MQBrokerException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
@@ -172,6 +202,10 @@ public class JobService {
 
     public Map getJob(String jobId) {
         return searchService.getJob(jobId);
+    }
+
+    public Job getJobFromDB(String jobId){
+        return jobMapper.selectByPrimaryKey(jobId);
     }
 
     public boolean deployJob(String companyUserId, String jobId) {

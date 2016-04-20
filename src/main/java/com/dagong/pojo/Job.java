@@ -1,6 +1,7 @@
 package com.dagong.pojo;
 
 import java.util.Date;
+import java.util.HashMap;
 
 public class Job {
     private String id;
@@ -52,6 +53,8 @@ public class Job {
     private String workedYear;
 
     private String welfare;
+
+    private HashMap<String,Object> extraProperties = new HashMap<>();
 
     public String getId() {
         return id;
@@ -252,6 +255,14 @@ public class Job {
 
     public void setJobTypeName(String jobTypeName) {
         this.jobTypeName = jobTypeName;
+    }
+
+    public HashMap<String, Object> getExtraProperties() {
+        return extraProperties;
+    }
+
+    public void addExtraProperties(String key,Object value) {
+        this.extraProperties.put(key,value);
     }
 
     @Override

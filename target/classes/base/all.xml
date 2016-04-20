@@ -9,5 +9,6 @@
     <import resource="classpath:base/mvc.xml"/>
     <import resource="classpath:base/common.xml"/>
     <import resource="classpath:base/datasource.xml"/>
+    <import resource="classpath:base/mq.xml"/>
 
 </beans>

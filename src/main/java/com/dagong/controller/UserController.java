@@ -2,6 +2,7 @@ package com.dagong.controller;
 
 import com.dagong.mapper.JobTypeMapper;
 import com.dagong.pojo.User;
+import com.dagong.service.FollowService;
 import com.dagong.service.UserService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,10 @@ public class UserController {
     private UserService userService;
 
     @Resource
+    private FollowService followService;
+
+
+    @Resource
     private JobTypeMapper jobTypeMapper;
 
     private static String REGEX = "^1[3|4|5|7|8]\\d{9}$";
@@ -32,59 +37,37 @@ public class UserController {
     }
 
     @RequestMapping("/selectWantEnvironment.do")
-    public String selectWantEnvironment(@CookieValue("user") String user,@RequestParam int[] environment){
+    public String selectWantEnvironment(@CookieValue("user") String user, @RequestParam int[] environment) {
         String userId = userService.getUserIdFromCookie(user);
-        userService.addWantEnvironment(userId,environment);
+        userService.addWantEnvironment(userId, environment);
         return "ok";
     }
-
-
 
     @RequestMapping("/saveExperience.do")
-    public String saveExperience(@CookieValue("user") String user,@RequestParam String experience,@RequestParam String specialSkill){
+    public String saveExperience(@CookieValue("user") String user, @RequestParam String experience, @RequestParam String specialSkill) {
         String userId = userService.getUserIdFromCookie(user);
-        userService.saveUserExperience(userId,experience);
-        userService.saveUserSkill(userId,specialSkill);
+        userService.saveUserExperience(userId, experience);
+        userService.saveUserSkill(userId, specialSkill);
         return "ok";
     }
+
     @RequestMapping("/userProfile.do")
-    public String profile(@CookieValue("user") String user){
+    public String profile(@CookieValue("user") String user) {
         String userId = userService.getUserIdFromCookie(user);
         System.out.println("userId = " + userId);
         return "/view/profile";
     }
 
 
-
-
-    //    @RequestMapping("/jobType.do")
-//    public String jobType() throws UnsupportedEncodingException {
-//        List<JobType> list = jobTypeMapper.selectByParentId(new Integer(0));
-//        for (JobType jobType : list) {
-//            generateChildType(jobType);
-//        }
-//
-//        String json = JSON.toJSONString(list);
-//        json = new String(json.getBytes("utf-8"),"gbk");
-//        return json;
-//    }
-//
-//    private void generateChildType(JobType jobType) {
-//        List<JobType> list = jobTypeMapper.selectByParentId(jobType.getId());
-//        for (JobType cobType : list) {
-//            jobType.addChild(cobType);
-//            generateChildType(cobType);
-//        }
-//    }
-@RequestMapping("/selectJobType.do")
-public String selectJobType(@CookieValue("user") String user,@RequestParam int[] jobTypes){
-    String userId = userService.getUserIdFromCookie(user);
-    if(StringUtils.isBlank(user)){
-        return "noUser";
+    @RequestMapping("/selectJobType.do")
+    public String selectJobType(@CookieValue("user") String user, @RequestParam int[] jobTypes) {
+        String userId = userService.getUserIdFromCookie(user);
+        if (StringUtils.isBlank(user)) {
+            return "noUser";
+        }
+        userService.addWantJob(user, jobTypes);
+        return "ok";
     }
-    userService.addWantJob(user,jobTypes);
-    return "ok";
-}
 
     @RequestMapping("/register.do")
     public String register(@RequestParam String name,
@@ -125,6 +108,14 @@ public String selectJobType(@CookieValue("user") String user,@RequestParam int[]
         }
         userService.sendValidatePhoneNumberCode(phoneNumber);
         return "ok";
+    }
+
+
+    @RequestMapping("myFollowJob.do")
+    public String followJob(@CookieValue("user") String user, @RequestParam(value = "page", defaultValue = "1") int page) {
+        String userId = userService.getUserIdFromCookie(user);
+
+        return null;
     }
 
     private static boolean validatePhoneNumber(String phoneNumber) {

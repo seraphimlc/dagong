@@ -18,9 +18,17 @@ public class IndexController {
     UserService userService;
     @RequestMapping("/")
     public String index(HttpServletResponse response){
-        Cookie cookie = new Cookie("user",userService.generateCookieForUser("1") );
-        cookie.setPath("/");
-        response.addCookie(cookie);
+        Cookie cookieId = new Cookie("userToken",userService.generateCookieForUser("1") );
+        cookieId.setPath("/");
+        Cookie userId = new Cookie("userId","1" );
+        userId.setPath("/");
+        Cookie userName = new Cookie("userName","lc" );
+        userName.setPath("/");
+
+        response.addCookie(cookieId);
+        response.addCookie(userId);
+        response.addCookie(userName);
+
         return "index";
     }
 

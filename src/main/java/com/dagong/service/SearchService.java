@@ -1,5 +1,9 @@
 package com.dagong.service;
 
+import com.alibaba.fastjson.JSON;
+import com.dagong.pojo.Job;
+import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -49,5 +53,23 @@ public class SearchService {
             return response.getSource();
         }
         return null;
+    }
+
+    public boolean addUserFollowJobToIndex(){
+        return true;
+    }
+
+    public boolean addJobToIndex(List<Job> jobList){
+        if(jobList==null||jobList.isEmpty()){
+            return false;
+        }
+
+        BulkRequestBuilder bulkRequestBuilder = transportClient.prepareBulk();
+        jobList.forEach(job -> {
+            bulkRequestBuilder.add(transportClient.prepareIndex("test", "job", job.getId()).setSource(JSON.toJSONString(job)));
+        });
+        BulkResponse bulkItemResponses = bulkRequestBuilder.execute().actionGet();
+
+        return true;
     }
 }

@@ -4,12 +4,15 @@ import com.dagong.mapper.CompanyUserMapper;
 import com.dagong.mapper.FollowCompanyMapper;
 import com.dagong.mapper.FollowJobMapper;
 import com.dagong.mapper.FollowUserMapper;
+import com.dagong.mq.SendMessageService;
 import com.dagong.pojo.CompanyUser;
 import com.dagong.pojo.FollowCompany;
 import com.dagong.pojo.FollowJob;
 import com.dagong.pojo.FollowUser;
 import com.dagong.util.IdGenerator;
 import com.dagong.util.ListUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,12 +30,13 @@ public class FollowService {
     private FollowJobMapper followJobMapper;
     @Resource
     private FollowUserMapper followUserMapper;
-
     @Resource
     private CompanyUserMapper companyUserMapper;
-
     @Resource
     private IdGenerator idGenerator;
+
+    @Resource
+    private SendMessageService sendMessageService;
 
     public boolean followCompany(String userId, String companyId) {
         List<FollowCompany> followCompanies = getFollowCompany(userId, companyId);
@@ -74,14 +78,23 @@ public class FollowService {
         return true;
     }
 
-    public boolean followJob(String userId,String jobId){
-        List<FollowJob> followJobs = getFollowJob(userId, jobId);
-        if (ListUtil.isEmpty(followJobs)) {
-            FollowJob followJob = createFollowJob(userId, jobId);
-            followJobMapper.insert(followJob);
-            return true;
+    public boolean followJob(String userId,String[] jobIds){
+        for(String jobId:jobIds) {
+            List<FollowJob> followJobs = getFollowJob(userId, jobId);
+            if (ListUtil.isEmpty(followJobs)) {
+                FollowJob followJob = createFollowJob(userId, jobId);
+                followJobMapper.insert(followJob);
+            }
         }
-        return false;
+        return true;
+    }
+
+    public Page<FollowJob> getFollowJobForUser(String userId,int pageNo,int pageSize){
+        PageHelper.startPage(pageNo, pageSize);
+        FollowJob followJob = new FollowJob();
+        followJob.setUserId(userId);
+        Page<FollowJob> page = (Page<FollowJob>) followJobMapper.getListSelective(followJob);
+        return page;
     }
 
     public boolean dismissFollowJob(String followId,String userId,String jobId){

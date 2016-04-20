@@ -1,5 +1,8 @@
 package com.dagong.service;
 
+import com.alibaba.rocketmq.client.exception.MQBrokerException;
+import com.alibaba.rocketmq.client.exception.MQClientException;
+import com.alibaba.rocketmq.remoting.exception.RemotingException;
 import com.dagong.mapper.*;
 import com.dagong.pojo.*;
 import com.dagong.util.BeanValidator;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,6 +27,7 @@ public class UserService {
     private static int VALIDATE_CODE_LENGTH = 4;
     private static int VALIDATE_CODE_EXPIRED_TIME = 1000 * 60;
     private static Jedis jedisClient = new Jedis("172.16.54.144", 6379);
+    private static String MESSAGE_TOPIC="user";
 
     @Resource
     private UserMapper userMapper;
@@ -42,8 +47,8 @@ public class UserService {
     @Resource
     private WantInformationMapper wantInformationMapper;
 
-    @Resource
-    private SendMessageService sendMessageService;
+//    @Resource(name = "userMessageSender")
+//    private SendMessageService sendMessageService;
 
     @Resource
     private IdGenerator idGenerator;
@@ -179,8 +184,19 @@ public class UserService {
         }
         validateCode = IdGenerator.generateValidateCode(VALIDATE_CODE_LENGTH);
         jedisClient.setex(phoneNumber, VALIDATE_CODE_EXPIRED_TIME, validateCode);
-        sendMessageService.sendMessage(phoneNumber, getMessageFromTemplate(validateCode));
+        try {
+            sendMessage(phoneNumber, getMessageFromTemplate(validateCode));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
+    }
+
+    private void sendMessage(String phoneNumber, String message) throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
+        HashMap<String, String> msg = new HashMap<>();
+        msg.put(phoneNumber, message);
+//        sendMessageService.sendMessage(MESSAGE_TOPIC,"validateCode", msg);
     }
 
     private String getMessageFromTemplate(String message) {

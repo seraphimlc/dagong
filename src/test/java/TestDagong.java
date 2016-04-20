@@ -1,7 +1,20 @@
 import com.alibaba.fastjson.JSON;
+import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
+import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
+import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import com.alibaba.rocketmq.client.exception.MQBrokerException;
+import com.alibaba.rocketmq.client.exception.MQClientException;
+import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
+import com.alibaba.rocketmq.client.producer.SendResult;
+import com.alibaba.rocketmq.common.consumer.ConsumeFromWhere;
+import com.alibaba.rocketmq.common.message.Message;
+import com.alibaba.rocketmq.common.message.MessageExt;
+import com.alibaba.rocketmq.remoting.exception.RemotingException;
 import com.dagong.mapper.JobMapper;
 import com.dagong.mapper.JobTypeMapper;
 import com.dagong.mapper.UserMapper;
+import com.dagong.mq.job.CreateJobMessageProcessor;
 import com.dagong.pojo.Company;
 import com.dagong.pojo.DegreeType;
 import com.dagong.pojo.Job;
@@ -17,7 +30,6 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
-import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -72,6 +84,8 @@ public class TestDagong {
     private UserMapper userMapper;
     @Autowired
     private IdGenerator idGenerator;
+    @Autowired
+    private CreateJobMessageProcessor createJobMessageProcessor;
 
     private Map<String, JobType> jobTypeMap = new HashMap<>();
 
@@ -85,10 +99,10 @@ public class TestDagong {
     public void test() throws Exception {
 //        Job job = jobService.getJob(130 + "");
 //        System.out.println("job = " + job);
-//        Company company = companyService.getCompanyByName("Áõ³©");
+//        Company company = companyService.getCompanyByName("ï¿½ï¿½ï¿½ï¿½");
 //        System.out.println("company = " + company);
-////      companyService.createCompany(new String("Áõ³©"), "");
-//        System.out.println("\"Áõ³©\" = " + "Áõ³©");
+////      companyService.createCompany(new String("ï¿½ï¿½ï¿½ï¿½"), "");
+//        System.out.println("\"ï¿½ï¿½ï¿½ï¿½\" = " + "ï¿½ï¿½ï¿½ï¿½");
 //        readFromExcel();
 //        testSendValidateCode();
 //        testRegister();
@@ -154,7 +168,7 @@ public class TestDagong {
         job.setCreateTime(new Date());
         job.setModifyTime(new Date());
         job.setStatus(1);
-        jobService.createJob(job);
+        jobService.createJob(job,"lc");
 
     }
 
@@ -312,14 +326,14 @@ public class TestDagong {
         TransportClient transportClient = TransportClient.builder().build()
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.16.54.144"), 9300));
         BulkRequestBuilder bulkRequestBuilder = transportClient.prepareBulk();
-        jobs.forEach(job -> {
-            bulkRequestBuilder.add(transportClient.prepareIndex("test", "job", job.getId()).setSource(JSON.toJSONString(job)));
-        });
-        BulkResponse bulkItemResponses = bulkRequestBuilder.execute().actionGet();
-        bulkItemResponses.forEach(bulkItemResponse -> {
-            System.out.println("fail = " + bulkItemResponse.getFailure());
-            System.out.println("bulkItemResponse.getFailureMessage() = " + bulkItemResponse.getFailureMessage());
-        });
+//        jobs.forEach(job -> {
+//            bulkRequestBuilder.add(transportClient.prepareIndex("test", "job", job.getId()).setSource(JSON.toJSONString(job)));
+//        });
+//        BulkResponse bulkItemResponses = bulkRequestBuilder.execute().actionGet();
+//        bulkItemResponses.forEach(bulkItemResponse -> {
+//            System.out.println("fail = " + bulkItemResponse.getFailure());
+//            System.out.println("bulkItemResponse.getFailureMessage() = " + bulkItemResponse.getFailureMessage());
+//        });
 //        bulkRequestBuilder.add(transportClient.prepareIndex("test", "job", job.getId()).setSource(JSON.toJSONString(job)))
 //        Job job = jobMapper.selectByPrimaryKey("111");
 //        transportClient.prepareIndex("test", "job", job.getId()).setSource(JSON.toJSONString(job)).execute().actionGet();
@@ -331,7 +345,7 @@ public class TestDagong {
         System.out.println("newJob = " + newJob);
         transportClient.close();
     }
-@Test
+//@Test
     public void search() throws UnknownHostException {
         TransportClient transportClient = TransportClient.builder().build()
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.16.54.144"), 9300));
@@ -340,8 +354,65 @@ public class TestDagong {
                 .setQuery(QueryBuilders.termQuery("jobType", "52")).execute().actionGet();
         System.out.println("searchResponse = " + searchResponse);
     }
+@Test
+public void testMQ() throws InterruptedException {
 
+//    testReceiveMessage();
+    testSendMessage();
+    Thread.sleep(1000*1000);
+}
+public void testSendMessage(){
+    DefaultMQProducer producer = new DefaultMQProducer("TestJobProducer");
+    producer.setNamesrvAddr("172.16.54.144:9876");
+    producer.setVipChannelEnabled(false);
+    try{
+        producer.start();
+        for (int i = 0; i < 100; i++) {
 
+            Message message = new Message("job",i%2==0?"createJob":"followJob",i+"","justforTEST".getBytes("UTF-8"));
+            SendResult sendResult = producer.send(message);
+            System.out.println("sendResult.getMsgId() = " + sendResult.getMsgId());
+            System.out.println("sendResult = " + sendResult.getSendStatus());
+        }
+    } catch (MQClientException e) {
+        e.printStackTrace();
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    } catch (RemotingException e) {
+        e.printStackTrace();
+    } catch (MQBrokerException e) {
+        e.printStackTrace();
+    } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+    } finally {
+        producer.shutdown();
+    }
+}
 
+    public void testReceiveMessage(){
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("PushConsumer");
+        consumer.setNamesrvAddr("172.16.54.144:9876");
+
+        try{
+            consumer.subscribe("Job","publishJob");
+            consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
+            consumer.registerMessageListener(new MessageListenerConcurrently() {
+                @Override
+                public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+//                    list.forEach(messageExt -> {
+//                        System.out.println("messageExt = " + messageExt);
+//                    });
+                    for(MessageExt messageExt:list){
+                        System.out.println("messageExt = " + messageExt);
+                    }
+                    return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+                }
+            });
+            consumer.start();
+//            Thread.sleep(1000*60);
+        } catch (MQClientException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

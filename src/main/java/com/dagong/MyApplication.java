@@ -2,6 +2,7 @@ package com.dagong;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.ImportResource;
 
 /**
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.ImportResource;
 
 
 @SpringBootApplication
+@ServletComponentScan
 @ImportResource("classpath:base/all.xml")
 public class MyApplication {
 
@@ -18,4 +20,5 @@ public class MyApplication {
         springApplication.setWebEnvironment(true);
         springApplication.run(MyApplication.class, args);
     }
+
 }

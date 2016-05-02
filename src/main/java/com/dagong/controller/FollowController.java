@@ -23,23 +23,20 @@ public class FollowController {
 
     @RequestMapping("/followJob.do")
     @ResponseBody
-    public String followJob(@CookieValue("user") String user,@RequestParam("jobIds") String[] jobIds) {
-        String userId = userService.getUserIdFromCookie(user);
+    public String followJob(@CookieValue("userId") String userId,@RequestParam("jobIds") String[] jobIds) {
         followService.followJob(userId, jobIds);
         return "true";
     }
 
     @RequestMapping("/followCompany.do")
     @ResponseBody
-    public String followCompany(@CookieValue("user") String user,@RequestParam("companyId") String companyId) {
-        String userId = userService.getUserIdFromCookie(user);
+    public String followCompany(@CookieValue("userId") String userId,@RequestParam("companyId") String companyId) {
         followService.followCompany(userId, companyId);
         return "true";
     }
 
     @RequestMapping("/getFollowJob.do")
-    public Page getFollowJob(@CookieValue("user") String user,@RequestParam(name="page",defaultValue = "1")int page){
-        String userId = userService.getUserIdFromCookie(user);
+    public Page getFollowJob(@CookieValue("userId") String userId,@RequestParam(name="page",defaultValue = "1")int page){
         Page<FollowJob> followJobForUser = followService.getFollowJobForUser(userId, page, PAGE_SIZE);
         return followJobForUser;
     }

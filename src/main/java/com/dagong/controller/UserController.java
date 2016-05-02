@@ -37,23 +37,20 @@ public class UserController {
     }
 
     @RequestMapping("/selectWantEnvironment.do")
-    public String selectWantEnvironment(@CookieValue("user") String user, @RequestParam int[] environment) {
-        String userId = userService.getUserIdFromCookie(user);
+    public String selectWantEnvironment(@CookieValue("userId") String userId, @RequestParam int[] environment) {
         userService.addWantEnvironment(userId, environment);
         return "ok";
     }
 
     @RequestMapping("/saveExperience.do")
-    public String saveExperience(@CookieValue("user") String user, @RequestParam String experience, @RequestParam String specialSkill) {
-        String userId = userService.getUserIdFromCookie(user);
+    public String saveExperience(@CookieValue("userId") String userId, @RequestParam String experience, @RequestParam String specialSkill) {
         userService.saveUserExperience(userId, experience);
         userService.saveUserSkill(userId, specialSkill);
         return "ok";
     }
 
     @RequestMapping("/userProfile.do")
-    public String profile(@CookieValue("user") String user) {
-        String userId = userService.getUserIdFromCookie(user);
+    public String profile(@CookieValue("userId") String userId) {
         System.out.println("userId = " + userId);
         return "/view/profile";
     }
@@ -112,8 +109,7 @@ public class UserController {
 
 
     @RequestMapping("myFollowJob.do")
-    public String followJob(@CookieValue("user") String user, @RequestParam(value = "page", defaultValue = "1") int page) {
-        String userId = userService.getUserIdFromCookie(user);
+    public String followJob(@CookieValue("userId") String userId, @RequestParam(value = "page", defaultValue = "1") int page) {
 
         return null;
     }

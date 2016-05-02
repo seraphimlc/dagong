@@ -20,8 +20,7 @@ public class ApplyController {
 
     @RequestMapping("/apply.do")
     @ResponseBody
-    public String applyJob(@CookieValue("user") String user, @RequestParam("companyId") String companyId, @RequestParam("jobId") String jobId) {
-        String userId = userService.getUserIdFromCookie(user);
+    public String applyJob(@CookieValue("userId") String userId, @RequestParam("companyId") String companyId, @RequestParam("jobId") String jobId) {
         applyService.apply(userId, companyId, jobId);
         return "true";
     }

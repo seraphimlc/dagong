@@ -35,7 +35,7 @@ public class CreateJobMessageProcessor extends MessageProcessor {
             System.out.println("messageExt = " + messageExt.getTags());
             try {
                 String jobId = new String(messageExt.getBody(),"UTF-8");
-                Job job = jobService.getJobFromDB(jobId);
+                Job job = null;//jobService.getJobFromDB(jobId);
                 if(job==null){
                     return;
                 }

@@ -14,10 +14,11 @@ import java.io.IOException;
 /**
  * Created by liuchang on 16/4/19.
  */
-@WebFilter(filterName = "authFilter",urlPatterns = "*.do")
+@WebFilter(filterName = "userFilter",urlPatterns = "*.do")
 public class UserFilter implements Filter {
     @Resource
     private UserService userService;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -27,33 +28,38 @@ public class UserFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-        boolean isAuthed=false;
+        boolean isAuthed = false;
         String userToken = null;
         String userId = null;
-        String userName=null;
-        for (Cookie cookie : httpServletRequest.getCookies()) {
-            if("userToken".equals(cookie.getName())){
-                userToken=cookie.getValue();
-            }else if("userId".equals(cookie.getName())){
-                userId = cookie.getValue();
-            }else if("userName".equals(cookie.getName())){
-                userName=cookie.getValue();
-            }
-
-            if(StringUtils.isNotBlank(userToken)&&
-                    StringUtils.isNotBlank(userId)&&
-                    StringUtils.isNotBlank(userName)){
-                String tempUserId = userService.getUserIdFromCookie(userToken);
-                if(userId.equals(tempUserId)){
-                    isAuthed=true;
+        String userName = null;
+        if(httpServletRequest.getCookies()!=null) {
+            for (Cookie cookie : httpServletRequest.getCookies()) {
+                if ("userToken".equals(cookie.getName())) {
+                    userToken = cookie.getValue();
+                } else if ("userId".equals(cookie.getName())) {
+                    userId = cookie.getValue();
+                } else if ("userName".equals(cookie.getName())) {
+                    userName = cookie.getValue();
                 }
             }
-            if(isAuthed){
-                filterChain.doFilter(servletRequest,servletResponse);
-            }else{
-                httpServletResponse.sendRedirect("/login.do");
+        }
+//        System.out.println("userToken = " + userToken);
+//        System.out.println("userId = " + userId);
+//        System.out.println("userName = " + userName);
+        if (StringUtils.isNotBlank(userToken) &&
+                StringUtils.isNotBlank(userId) &&
+                StringUtils.isNotBlank(userName)) {
+            String tempUserId = userService.getUserIdFromCookie(userToken);
+            if (userId.equals(tempUserId)) {
+                isAuthed = true;
             }
         }
+        if (isAuthed) {
+            filterChain.doFilter(servletRequest, servletResponse);
+        } else {
+            httpServletResponse.sendRedirect("/");
+        }
+
     }
 
     @Override

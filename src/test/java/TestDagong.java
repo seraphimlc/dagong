@@ -30,6 +30,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -59,6 +60,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by liuchang on 16/1/19.
@@ -168,7 +170,7 @@ public class TestDagong {
         job.setCreateTime(new Date());
         job.setModifyTime(new Date());
         job.setStatus(1);
-        jobService.createJob(job,"lc");
+//        jobService.createJob(job,"lc");
 
     }
 
@@ -297,12 +299,12 @@ public class TestDagong {
     private void testRegister() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/register.do")
-                        .param("name", "lc")
-                        .param("gender", "1")
-                        .param("birthday", "1983-10-19")
-                        .param("phoneNumber", "18601151003")
-                        .param("validateCode", "2910")
-                        .param("cardId", "210922198310190931")
+                .param("name", "lc")
+                .param("gender", "1")
+                .param("birthday", "1983-10-19")
+                .param("phoneNumber", "18601151003")
+                .param("validateCode", "2910")
+                .param("cardId", "210922198310190931")
         )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print()).andReturn();
@@ -319,33 +321,52 @@ public class TestDagong {
         }
 
     }
-
-//    @Test
+@Test
     public void testSearch() throws UnknownHostException {
-        List<Job> jobs = jobService.listJob("241", 1);
+        List<Job> jobs = jobMapper.listJob(new Job());
+        System.out.println("list = " + jobs.size());
+//        List<Job> jobs = jobService.listJob("241", 1);
         TransportClient transportClient = TransportClient.builder().build()
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.16.54.144"), 9300));
         BulkRequestBuilder bulkRequestBuilder = transportClient.prepareBulk();
-//        jobs.forEach(job -> {
-//            bulkRequestBuilder.add(transportClient.prepareIndex("test", "job", job.getId()).setSource(JSON.toJSONString(job)));
-//        });
-//        BulkResponse bulkItemResponses = bulkRequestBuilder.execute().actionGet();
-//        bulkItemResponses.forEach(bulkItemResponse -> {
-//            System.out.println("fail = " + bulkItemResponse.getFailure());
-//            System.out.println("bulkItemResponse.getFailureMessage() = " + bulkItemResponse.getFailureMessage());
-//        });
+        AtomicInteger atomicInteger = new AtomicInteger(1);
+        jobs.forEach(job -> {
+            job.setJobType(51);
+            bulkRequestBuilder.add(transportClient.prepareIndex("test", "job", job.getId()+atomicInteger.incrementAndGet()).setSource(JSON.toJSONString(job)));
+
+            job.setJobType(53);
+            bulkRequestBuilder.add(transportClient.prepareIndex("test", "job", job.getId()+atomicInteger.incrementAndGet()).setSource(JSON.toJSONString(job)));
+
+            job.setJobType(54);
+            bulkRequestBuilder.add(transportClient.prepareIndex("test", "job", job.getId()+atomicInteger.incrementAndGet()).setSource(JSON.toJSONString(job)));
+
+            job.setJobType(55);
+            bulkRequestBuilder.add(transportClient.prepareIndex("test", "job", job.getId()+atomicInteger.incrementAndGet()).setSource(JSON.toJSONString(job)));
+
+            job.setJobType(56);
+            bulkRequestBuilder.add(transportClient.prepareIndex("test", "job", job.getId()+atomicInteger.incrementAndGet()).setSource(JSON.toJSONString(job)));
+
+            job.setJobType(57);
+            bulkRequestBuilder.add(transportClient.prepareIndex("test", "job", job.getId()+atomicInteger.incrementAndGet()).setSource(JSON.toJSONString(job)));
+        });
+        BulkResponse bulkItemResponses = bulkRequestBuilder.execute().actionGet();
+        bulkItemResponses.forEach(bulkItemResponse -> {
+            System.out.println("fail = " + bulkItemResponse.getFailure());
+            System.out.println("bulkItemResponse.getFailureMessage() = " + bulkItemResponse.getFailureMessage());
+        });
 //        bulkRequestBuilder.add(transportClient.prepareIndex("test", "job", job.getId()).setSource(JSON.toJSONString(job)))
 //        Job job = jobMapper.selectByPrimaryKey("111");
 //        transportClient.prepareIndex("test", "job", job.getId()).setSource(JSON.toJSONString(job)).execute().actionGet();
 //
-        GetResponse response = transportClient.prepareGet("test", "job", "140").execute().actionGet();
-        String string = response.getSourceAsString();
-        Job newJob = JSON.parseObject(string,Job.class);
-        System.out.println("string = " + string);
-        System.out.println("newJob = " + newJob);
+//        GetResponse response = transportClient.prepareGet("test", "job", "140").execute().actionGet();
+//        String string = response.getSourceAsString();
+//        Job newJob = JSON.parseObject(string,Job.class);
+//        System.out.println("string = " + string);
+//        System.out.println("newJob = " + newJob);
         transportClient.close();
     }
-//@Test
+
+    //@Test
     public void search() throws UnknownHostException {
         TransportClient transportClient = TransportClient.builder().build()
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.16.54.144"), 9300));
@@ -354,47 +375,49 @@ public class TestDagong {
                 .setQuery(QueryBuilders.termQuery("jobType", "52")).execute().actionGet();
         System.out.println("searchResponse = " + searchResponse);
     }
-@Test
-public void testMQ() throws InterruptedException {
+
+    @Test
+    public void testMQ() throws InterruptedException {
 
 //    testReceiveMessage();
-    testSendMessage();
-    Thread.sleep(1000*1000);
-}
-public void testSendMessage(){
-    DefaultMQProducer producer = new DefaultMQProducer("TestJobProducer");
-    producer.setNamesrvAddr("172.16.54.144:9876");
-    producer.setVipChannelEnabled(false);
-    try{
-        producer.start();
-        for (int i = 0; i < 100; i++) {
-
-            Message message = new Message("job",i%2==0?"createJob":"followJob",i+"","justforTEST".getBytes("UTF-8"));
-            SendResult sendResult = producer.send(message);
-            System.out.println("sendResult.getMsgId() = " + sendResult.getMsgId());
-            System.out.println("sendResult = " + sendResult.getSendStatus());
-        }
-    } catch (MQClientException e) {
-        e.printStackTrace();
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    } catch (RemotingException e) {
-        e.printStackTrace();
-    } catch (MQBrokerException e) {
-        e.printStackTrace();
-    } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-    } finally {
-        producer.shutdown();
+        testSendMessage();
+        Thread.sleep(1000 * 1000);
     }
-}
 
-    public void testReceiveMessage(){
+    public void testSendMessage() {
+        DefaultMQProducer producer = new DefaultMQProducer("TestJobProducer");
+        producer.setNamesrvAddr("172.16.54.144:9876");
+        producer.setVipChannelEnabled(false);
+        try {
+            producer.start();
+            for (int i = 0; i < 100; i++) {
+
+                Message message = new Message("job", i % 2 == 0 ? "createJob" : "followJob", i + "", "justforTEST".getBytes("UTF-8"));
+                SendResult sendResult = producer.send(message);
+                System.out.println("sendResult.getMsgId() = " + sendResult.getMsgId());
+                System.out.println("sendResult = " + sendResult.getSendStatus());
+            }
+        } catch (MQClientException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (RemotingException e) {
+            e.printStackTrace();
+        } catch (MQBrokerException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } finally {
+            producer.shutdown();
+        }
+    }
+
+    public void testReceiveMessage() {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("PushConsumer");
         consumer.setNamesrvAddr("172.16.54.144:9876");
 
-        try{
-            consumer.subscribe("Job","publishJob");
+        try {
+            consumer.subscribe("Job", "publishJob");
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
             consumer.registerMessageListener(new MessageListenerConcurrently() {
                 @Override
@@ -402,7 +425,7 @@ public void testSendMessage(){
 //                    list.forEach(messageExt -> {
 //                        System.out.println("messageExt = " + messageExt);
 //                    });
-                    for(MessageExt messageExt:list){
+                    for (MessageExt messageExt : list) {
                         System.out.println("messageExt = " + messageExt);
                     }
                     return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;

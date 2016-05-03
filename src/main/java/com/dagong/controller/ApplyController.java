@@ -1,5 +1,6 @@
 package com.dagong.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.rocketmq.client.exception.MQBrokerException;
 import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.remoting.exception.RemotingException;
@@ -8,6 +9,7 @@ import com.dagong.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by liuchang on 16/1/28.
@@ -34,10 +36,17 @@ public class ApplyController {
         }
         return "true";
     }
+
     @RequestMapping("/userApply.do")
-    public String showUserApplyRecord(@CookieValue("userId") String userId,@RequestParam("page") int page){
-        applyService.selectApplyRecordByUserId(userId,)
+    public String showUserApplyRecord(@CookieValue("userId") String userId, @RequestParam("page") int page) {
+        List list = applyService.selectApplyRecordByUserId(userId, page, null);
+        if (list != null && !list.isEmpty()) {
+            return JSON.toJSONString(list);
+        }
+        return null;
 
     }
+
+
 
 }

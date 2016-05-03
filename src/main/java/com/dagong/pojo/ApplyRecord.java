@@ -9,7 +9,11 @@ public class ApplyRecord {
 
     private Integer status;
 
-    private Long applytime;
+    private Long applyTime;
+
+    private String description;
+
+    private Long updateTime;
 
     public String getId() {
         return id;
@@ -43,11 +47,27 @@ public class ApplyRecord {
         this.status = status;
     }
 
-    public Long getApplytime() {
-        return applytime;
+    public Long getApplyTime() {
+        return applyTime;
     }
 
-    public void setApplytime(Long applytime) {
-        this.applytime = applytime;
+    public void setApplyTime(Long applyTime) {
+        this.applyTime = applyTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
+    }
+
+    public Long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Long updateTime) {
+        this.updateTime = updateTime;
     }
 }

@@ -5,6 +5,7 @@ import com.dagong.pojo.ApplyRecord;
 import java.util.List;
 
 public interface ApplyRecordMapper {
+
     int deleteByPrimaryKey(String id);
 
     int insert(ApplyRecord record);

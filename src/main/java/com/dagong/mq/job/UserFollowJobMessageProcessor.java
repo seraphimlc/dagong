@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by liuchang on 16/4/16.
  */
-@Service
+//@Service
 public class UserFollowJobMessageProcessor extends MessageProcessor {
     public UserFollowJobMessageProcessor() {
         this.setTopic("job");

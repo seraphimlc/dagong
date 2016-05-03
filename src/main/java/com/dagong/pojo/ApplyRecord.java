@@ -9,6 +9,8 @@ public class ApplyRecord {
 
     private Integer status;
 
+    private Long applytime;
+
     public String getId() {
         return id;
     }
@@ -39,5 +41,13 @@ public class ApplyRecord {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Long getApplytime() {
+        return applytime;
+    }
+
+    public void setApplytime(Long applytime) {
+        this.applytime = applytime;
     }
 }

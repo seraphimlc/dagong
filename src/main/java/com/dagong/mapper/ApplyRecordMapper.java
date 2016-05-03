@@ -2,6 +2,8 @@ package com.dagong.mapper;
 
 import com.dagong.pojo.ApplyRecord;
 
+import java.util.List;
+
 public interface ApplyRecordMapper {
     int deleteByPrimaryKey(String id);
 
@@ -10,6 +12,8 @@ public interface ApplyRecordMapper {
     int insertSelective(ApplyRecord record);
 
     ApplyRecord selectByPrimaryKey(String id);
+
+    List<ApplyRecord> selectByUserId(String userId, Integer status);
 
     int updateByPrimaryKeySelective(ApplyRecord record);
 

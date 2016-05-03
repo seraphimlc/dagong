@@ -16,7 +16,7 @@ import java.util.List;
  * Created by liuchang on 16/4/16.
  */
 
-@Service
+//@Service
 public class CreateJobMessageProcessor extends MessageProcessor {
 
     @Resource
@@ -35,7 +35,7 @@ public class CreateJobMessageProcessor extends MessageProcessor {
             System.out.println("messageExt = " + messageExt.getTags());
             try {
                 String jobId = new String(messageExt.getBody(),"UTF-8");
-                Job job = null;//jobService.getJobFromDB(jobId);
+                Job job = null;
                 if(job==null){
                     return;
                 }

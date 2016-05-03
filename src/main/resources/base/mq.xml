@@ -21,5 +21,9 @@
         <property name="topic" value="job"/>
     </bean>
 
+    <bean id="applyMessageSender" class="com.dagong.mq.SendMessageWrapper">
+        <property name="topic" value="apply"/>
+    </bean>
+
 
 </beans>

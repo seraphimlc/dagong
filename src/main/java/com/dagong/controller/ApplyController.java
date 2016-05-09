@@ -15,12 +15,12 @@ import java.util.List;
  * Created by liuchang on 16/1/28.
  */
 @RestController
-@RequestMapping("/apply")
+//@RequestMapping("/apply")
 public class ApplyController {
     @Resource
     private ApplyService applyService;
 
-    @RequestMapping(".do")
+    @RequestMapping("apply.do")
     @ResponseBody
     public String applyJob(@CookieValue("userId") String userId, @RequestParam("companyId") String companyId, @RequestParam("jobId") String jobId) {
         try {
@@ -37,13 +37,10 @@ public class ApplyController {
         return "true";
     }
 
-    @RequestMapping("/userApply.do")
-    public String showUserApplyRecord(@CookieValue("userId") String userId, @RequestParam("page") int page) {
-        List list = applyService.selectApplyRecordByUserId(userId, page, null);
-        if (list != null && !list.isEmpty()) {
-            return JSON.toJSONString(list);
-        }
-        return null;
+    @RequestMapping("/apply/userApply.do")
+    public List showUserApplyRecord(@CookieValue("userId") String userId, @RequestParam(value = "page",defaultValue = "1") int page) {
+        List list = applyService.selectApplyRecordByUserId(userId, page, 0);
+        return list;
 
     }
 

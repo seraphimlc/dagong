@@ -34,12 +34,12 @@
                <!--selectByExampleQueryId="false">-->
 
         <!--</table>-->
-        <table tableName="applyrecord" domainObjectName="ApplyRecord"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+        <!--<table tableName="applyrecord" domainObjectName="ApplyRecord"-->
+               <!--enableCountByExample="false" enableUpdateByExample="false"-->
+               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false">-->
 
-        </table>
+        <!--</table>-->
         <!--<table tableName="wantjob" domainObjectName="WantJob"-->
                <!--enableCountByExample="false" enableUpdateByExample="false"-->
                <!--enableDeleteByExample="false" enableSelectByExample="false"-->

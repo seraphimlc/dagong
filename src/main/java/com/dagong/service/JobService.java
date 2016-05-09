@@ -2,12 +2,9 @@ package com.dagong.service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.dagong.job.JobClient;
-import com.dagong.job.TestClient;
 import com.dagong.job.vo.JobVO;
 import com.dagong.mapper.JobTypeMapper;
 import com.dagong.mapper.WantJobMapper;
-import com.dagong.mq.SendMessageWrapper;
-import com.dagong.user.TestUserClient;
 import com.dagong.util.IdGenerator;
 import org.springframework.stereotype.Service;
 

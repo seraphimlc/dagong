@@ -7,7 +7,6 @@ import com.alibaba.rocketmq.remoting.exception.RemotingException;
 import com.dagong.job.vo.JobVO;
 import com.dagong.mapper.ApplyLogMapper;
 import com.dagong.mapper.ApplyRecordMapper;
-import com.dagong.mq.SendMessageWrapper;
 import com.dagong.pojo.ApplyLog;
 import com.dagong.pojo.ApplyRecord;
 import com.dagong.util.IdGenerator;
@@ -66,13 +65,14 @@ public class ApplyService {
         msgMap.put("userId", userId);
         msgMap.put("jobId", jobId);
         msgMap.put("companyId", companyId);
-        msgMap.put("applyTime", System.currentTimeMillis());
+        msgMap.put("applyTime", applyRecord.getApplyTime());
+        msgMap.put("applyId",applyRecord.getId());
         sendMessageWrapper.sendMessage("userApplyJob", msgMap);
         return true;
     }
 
 
-    public List<ApplyRecord> selectApplyRecordByUserId(String userId, int page, Integer status) {
+    public List<ApplyRecord> selectApplyRecordByUserId(String userId, int page, int status) {
         if (page <= 0) {
             page = 1;
         }
@@ -82,31 +82,31 @@ public class ApplyService {
         return pages;
     }
 
-    public boolean read( String companyUserId,String applyId) {
-        return updateStatus(companyUserId, applyId, STATUS_READ);
-    }
+//    public boolean read( String companyUserId,String applyId) {
+//        return updateStatus(companyUserId, applyId, STATUS_READ);
+//    }
+//
+//    public boolean accept(String companyUserId, String applyId) {
+//        return updateStatus( companyUserId, applyId, STATUS_ACCEPT);
+//    }
+//
+//    public boolean refuse(String companyUserId,String applyId) {
+//        return updateStatus(companyUserId, applyId, STATUS_REFUSE);
+//    }
+//
+//    public boolean interview(String companyUserId,String applyId) {
+//        return updateStatus(companyUserId, applyId, STATUS_INTERVIEW);
+//    }
+//
+//    public boolean success(String companyId, String companyUserId,String applyId) {
+//        return updateStatus( companyUserId, applyId, STATUS_SUCCESS);
+//    }
+//
+//    public boolean fail(String companyUserId, String applyId) {
+//        return updateStatus( companyUserId, applyId, STATUS_FAILED);
+//    }
 
-    public boolean accept(String companyUserId, String applyId) {
-        return updateStatus( companyUserId, applyId, STATUS_ACCEPT);
-    }
-
-    public boolean refuse(String companyUserId,String applyId) {
-        return updateStatus(companyUserId, applyId, STATUS_REFUSE);
-    }
-
-    public boolean interview(String companyUserId,String applyId) {
-        return updateStatus(companyUserId, applyId, STATUS_INTERVIEW);
-    }
-
-    public boolean success(String companyId, String companyUserId,String applyId) {
-        return updateStatus( companyUserId, applyId, STATUS_SUCCESS);
-    }
-
-    public boolean fail(String companyUserId, String applyId) {
-        return updateStatus( companyUserId, applyId, STATUS_FAILED);
-    }
-
-    private boolean updateStatus(String companyUserId, String applyId, int status) {
+    public boolean updateStatus(String companyUserId, String applyId, int status) {
         ApplyRecord applyRecord = applyRecordMapper.selectByPrimaryKey(applyId);
         ApplyRecord newApplyRecord = new ApplyRecord();
         newApplyRecord.setId(applyId);

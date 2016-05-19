@@ -49,12 +49,7 @@ public class JobService {
 
     @Resource
     private IdGenerator idGenerator;
-//    @Resource
-//    private SearchService searchService;
 
-
-    @Resource(name = "jobMessageSender")
-    private SendMessageWrapper sendMessageWrapper;
 
     public JobVO getJob(String jobId) {
         return jobClient.getJobByJobId(jobId);

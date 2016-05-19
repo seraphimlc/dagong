@@ -77,7 +77,8 @@ public class UserService {
         return userClient.createWechatUser(userVO);
     }
 
-    public User register(User user) {
+    public User
+    register(User user) {
         user.setId(idGenerator.generate(User.class.getSimpleName()));
 
         BeanValidator.validate(user);

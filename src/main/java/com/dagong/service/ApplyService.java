@@ -7,6 +7,7 @@ import com.alibaba.rocketmq.remoting.exception.RemotingException;
 import com.dagong.job.vo.JobVO;
 import com.dagong.mapper.ApplyLogMapper;
 import com.dagong.mapper.ApplyRecordMapper;
+import com.dagong.mq.SendMessageService;
 import com.dagong.pojo.ApplyLog;
 import com.dagong.pojo.ApplyRecord;
 import com.dagong.util.IdGenerator;
@@ -48,8 +49,8 @@ public class ApplyService {
     @Resource
     private IdGenerator idGenerator;
 
-    @Resource(name = "applyMessageSender")
-    private SendMessageWrapper sendMessageWrapper;
+    @Resource
+    private SendMessageService sendMessageService;
 
     public boolean apply(String userId, String companyId, String jobId) throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
         JobVO jobVO = jobService.getJob(jobId);
@@ -67,7 +68,7 @@ public class ApplyService {
         msgMap.put("companyId", companyId);
         msgMap.put("applyTime", applyRecord.getApplyTime());
         msgMap.put("applyId",applyRecord.getId());
-        sendMessageWrapper.sendMessage("userApplyJob", msgMap);
+        sendMessageService.sendMessage("job","userApplyJob", msgMap);
         return true;
     }
 

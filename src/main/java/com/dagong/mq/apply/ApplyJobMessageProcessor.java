@@ -4,13 +4,7 @@ import com.alibaba.dubbo.common.json.JSON;
 import com.alibaba.dubbo.common.json.ParseException;
 import com.alibaba.rocketmq.common.message.MessageExt;
 import com.dagong.mq.MessageProcessor;
-import com.dagong.pojo.ApplyRecord;
-import com.dagong.pojo.Company;
-import com.dagong.pojo.Job;
 import com.dagong.service.ApplyService;
-import com.dagong.service.CompanyService;
-import com.dagong.service.JobService;
-import sun.plugin2.message.Message;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;

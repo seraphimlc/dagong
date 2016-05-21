@@ -1,14 +1,11 @@
 
 package com.dagong.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import com.dagong.job.JobClient;
 import com.dagong.job.vo.JobVO;
 import com.dagong.service.ApplyService;
 import com.dagong.service.JobService;
 import com.dagong.service.UserService;
-import com.dagong.user.vo.UserVO;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -24,7 +21,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/job/")
 public class JobController {
-        @Resource
+    @Resource
     private JobService jobService;
     @Resource
     private ApplyService applyService;
@@ -39,7 +36,7 @@ public class JobController {
             return null;
         }
         List<JobVO> recommendFromUser = jobService.searchJob(userId);
-        if(recommendFromUser!=null&&!recommendFromUser.isEmpty()) {
+        if (recommendFromUser != null && !recommendFromUser.isEmpty()) {
             return JSON.toJSON(recommendFromUser).toString();
         }
         return null;
@@ -50,9 +47,9 @@ public class JobController {
     @ResponseBody
     public String detail(@RequestParam("jobId") String jobId, Map<String, Object> model) {
         JobVO job = jobService.getJob(jobId);
-       if(job!=null){
-           return JSON.toJSON(job).toString();
-       }
+        if (job != null) {
+            return JSON.toJSON(job).toString();
+        }
         return null;
     }
 

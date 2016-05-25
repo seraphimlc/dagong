@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.dagong.pojo.ApplyLog" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="apply_id" property="applyId" jdbcType="VARCHAR" />
-    <result column="log_time" property="logTime" jdbcType="DATE" />
+    <result column="log_time" property="logTime" jdbcType="BIGINT" />
     <result column="modify_user" property="modifyUser" jdbcType="VARCHAR" />
     <result column="old_status" property="oldStatus" jdbcType="INTEGER" />
     <result column="new_status" property="newStatus" jdbcType="INTEGER" />
@@ -27,7 +27,7 @@
     insert into applylog (id, apply_id, log_time, 
       modify_user, old_status, new_status, 
       modify_username)
-    values (#{id,jdbcType=VARCHAR}, #{applyId,jdbcType=VARCHAR}, #{logTime,jdbcType=DATE}, 
+    values (#{id,jdbcType=VARCHAR}, #{applyId,jdbcType=VARCHAR}, #{logTime,jdbcType=BIGINT},
       #{modifyUser,jdbcType=VARCHAR}, #{oldStatus,jdbcType=INTEGER}, #{newStatus,jdbcType=INTEGER}, 
       #{modifyUsername,jdbcType=VARCHAR})
   </insert>
@@ -64,7 +64,7 @@
         #{applyId,jdbcType=VARCHAR},
       </if>
       <if test="logTime != null" >
-        #{logTime,jdbcType=DATE},
+        #{logTime,jdbcType=BIGINT},
       </if>
       <if test="modifyUser != null" >
         #{modifyUser,jdbcType=VARCHAR},
@@ -87,7 +87,7 @@
         apply_id = #{applyId,jdbcType=VARCHAR},
       </if>
       <if test="logTime != null" >
-        log_time = #{logTime,jdbcType=DATE},
+        log_time = #{logTime,jdbcType=BIGINT},
       </if>
       <if test="modifyUser != null" >
         modify_user = #{modifyUser,jdbcType=VARCHAR},
@@ -102,16 +102,6 @@
         modify_username = #{modifyUsername,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.dagong.pojo.ApplyLog" >
-    update applylog
-    set apply_id = #{applyId,jdbcType=VARCHAR},
-      log_time = #{logTime,jdbcType=DATE},
-      modify_user = #{modifyUser,jdbcType=VARCHAR},
-      old_status = #{oldStatus,jdbcType=INTEGER},
-      new_status = #{newStatus,jdbcType=INTEGER},
-      modify_username = #{modifyUsername,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

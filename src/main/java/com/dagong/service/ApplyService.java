@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -59,8 +58,8 @@ public class ApplyService {
         }
         ApplyRecord applyRecord = createApplyRecord(userId, jobVO);
         ApplyLog applyLog = createApplyLog(userId, applyRecord.getId(), applyRecord.getStatus(), applyRecord.getStatus());
-        applyRecordMapper.insert(applyRecord);
-        applyLogMapper.insert(applyLog);
+        applyRecordMapper.insertSelective(applyRecord);
+        applyLogMapper.insertSelective(applyLog);
 
         Map<String, Object> msgMap = new HashedMap();
         msgMap.put("userId", userId);
@@ -122,7 +121,7 @@ public class ApplyService {
     private ApplyLog createApplyLog(String userId, String applyId, int oldStatus, int newStatus) {
         ApplyLog applyLog = new ApplyLog();
         applyLog.setId(idGenerator.generate(ApplyLog.class.getSimpleName()));
-        applyLog.setLogTime(new Date());
+        applyLog.setLogTime(System.currentTimeMillis());
         applyLog.setApplyId(applyId);
         applyLog.setModifyUser(userId);
         applyLog.setNewStatus(newStatus);

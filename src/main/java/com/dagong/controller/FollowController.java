@@ -23,8 +23,8 @@ public class FollowController {
 
     @RequestMapping("/followJob.do")
     @ResponseBody
-    public String followJob(@CookieValue("userId") String userId,@RequestParam("jobIds") String[] jobIds) {
-        followService.followJob(userId, jobIds);
+    public String followJob(@CookieValue("userId") String userId,@RequestParam("jobId") String jobId) {
+        followService.followJob(userId, jobId);
         return "true";
     }
 

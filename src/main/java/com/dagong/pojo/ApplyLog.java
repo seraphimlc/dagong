@@ -1,13 +1,11 @@
 package com.dagong.pojo;
 
-import java.util.Date;
-
 public class ApplyLog {
     private String id;
 
     private String applyId;
 
-    private Date logTime;
+    private Long logTime;
 
     private String modifyUser;
 
@@ -33,11 +31,11 @@ public class ApplyLog {
         this.applyId = applyId == null ? null : applyId.trim();
     }
 
-    public Date getLogTime() {
+    public Long getLogTime() {
         return logTime;
     }
 
-    public void setLogTime(Date logTime) {
+    public void setLogTime(Long logTime) {
         this.logTime = logTime;
     }
 

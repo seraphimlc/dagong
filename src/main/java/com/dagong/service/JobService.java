@@ -56,11 +56,11 @@ public class JobService {
     }
 
     public List<JobVO> searchJob(String userId){
-        return  jobClient.getRecommendFromUser(userId);
+        return  jobClient.getRecommendFromUser(userId,1,null);
     }
 
     public void getRecommendFromUser(String userId){
-        jobClient.getRecommendFromUser(userId);
+        jobClient.getRecommendFromUser(userId,1,null);
     }
 }
 

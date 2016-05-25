@@ -29,7 +29,7 @@ public class IndexController {
         response.addCookie(userId);
         response.addCookie(userName);
 
-        return "index";
+        return "redirect:/framework.html";
     }
 
 

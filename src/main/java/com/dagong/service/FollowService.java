@@ -78,18 +78,16 @@ public class FollowService {
         return true;
     }
 
-    public boolean followJob(String userId,String[] jobIds){
-        for(String jobId:jobIds) {
-            List<FollowJob> followJobs = getFollowJob(userId, jobId);
-            if (ListUtil.isEmpty(followJobs)) {
-                FollowJob followJob = createFollowJob(userId, jobId);
-                followJobMapper.insert(followJob);
-            }
+    public boolean followJob(String userId, String jobId) {
+        List<FollowJob> followJobs = getFollowJob(userId, jobId);
+        if (ListUtil.isEmpty(followJobs)) {
+            FollowJob followJob = createFollowJob(userId, jobId);
+            followJobMapper.insertSelective(followJob);
         }
         return true;
     }
 
-    public Page<FollowJob> getFollowJobForUser(String userId,int pageNo,int pageSize){
+    public Page<FollowJob> getFollowJobForUser(String userId, int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
         FollowJob followJob = new FollowJob();
         followJob.setUserId(userId);
@@ -97,11 +95,11 @@ public class FollowService {
         return page;
     }
 
-    public boolean dismissFollowJob(String followId,String userId,String jobId){
+    public boolean dismissFollowJob(String followId, String userId, String jobId) {
         List<FollowJob> followJobs = getFollowJob(userId, jobId);
-        if(!ListUtil.isEmpty(followJobs)){
-            for(FollowJob followJob:followJobs){
-                if(followJob.getId().equals(followId)){
+        if (!ListUtil.isEmpty(followJobs)) {
+            for (FollowJob followJob : followJobs) {
+                if (followJob.getId().equals(followId)) {
                     followJobMapper.deleteByPrimaryKey(followId);
                 }
             }
@@ -117,14 +115,14 @@ public class FollowService {
         return followJob;
     }
 
-    public List<FollowJob> getFollowJob(String userId,String jobId){
+    public List<FollowJob> getFollowJob(String userId, String jobId) {
         FollowJob followJob = new FollowJob();
         followJob.setUserId(userId);
         followJob.setJobId(jobId);
         return followJobMapper.getListSelective(followJob);
     }
 
-    public boolean followUser(String companyUserId,String userId){
+    public boolean followUser(String companyUserId, String userId) {
         CompanyUser companyUser = companyUserMapper.selectByPrimaryKey(companyUserId);
         List<FollowUser> followUsers = getFollowUser(companyUserId, userId, companyUser.getCompanyId());
         if (ListUtil.isEmpty(followUsers)) {
@@ -135,18 +133,19 @@ public class FollowService {
         return false;
     }
 
-    public boolean dismissFollowUser(String followId,String companyUserId,String userId){
-        List<FollowUser> followUsers = getFollowUser(companyUserId, userId,null);
+    public boolean dismissFollowUser(String followId, String companyUserId, String userId) {
+        List<FollowUser> followUsers = getFollowUser(companyUserId, userId, null);
 
-        if(!ListUtil.isEmpty(followUsers)){
-            for(FollowUser followUser:followUsers){
-                if(followUser.getId().equals(followId)){
+        if (!ListUtil.isEmpty(followUsers)) {
+            for (FollowUser followUser : followUsers) {
+                if (followUser.getId().equals(followId)) {
                     followUserMapper.deleteByPrimaryKey(followId);
                 }
             }
         }
         return true;
     }
+
     private FollowUser createFollowUser(String companyUserId, String userId, CompanyUser companyUser) {
         FollowUser followUser = new FollowUser();
         followUser.setCompanyUser(companyUserId);
@@ -155,7 +154,7 @@ public class FollowService {
         return followUser;
     }
 
-    public List<FollowUser> getFollowUser(String companyUserId,String userId, String companyId) {
+    public List<FollowUser> getFollowUser(String companyUserId, String userId, String companyId) {
         FollowUser followUser = new FollowUser();
         followUser.setUserId(userId);
         followUser.setCompanyId(companyId);
@@ -163,8 +162,6 @@ public class FollowService {
         return followUserMapper.getListSelective(followUser);
 
     }
-
-
 
 
 }

@@ -1,0 +1,52 @@
+<img src="images/t_06.png" width="100%" class="v_m" />
+<article class="bgf c_9">
+#if (${jobList})
+<ul>
+    #foreach($element in $jobList)
+        <li class="bb pt2 pb2 pl2 pr2">
+            <p><a href="/job/detail.do?jobId=${element.id}">${element.jobName}</a></p>
+            <div class="clearfix"><span class="l">$!{element.companyName}</span>
+                <span class="red01 r">￥${element.startSalary}~${element.endSalary}</span></div>
+            <p>${element.address}</p>
+        </li>
+    #end
+</ul>
+#else
+未能找到推荐的职位,不好意思!
+#end
+</article>
+<!--<a href="#"><img src="images/t_06.png" width="100%" class="v_m" /></a>-->
+<!--<article class="bgf c_9">-->
+<!--<ul>-->
+<!--<li class="bb pt2 pb2 pl2 pr2">-->
+<!--<p><a href="#">服务员</a></p>-->
+<!--<div class="clearfix"><span class="l">四川海底捞餐饮股份有限公司</span><span class="red01 r">￥3500~4000</span></div>-->
+<!--<p>北京 | 海定区</p>-->
+<!--</li>-->
+<!--<li class="bb pt2 pb2 pl2 pr2">-->
+<!--<p><a href="#">服务员</a></p>-->
+<!--<div class="clearfix"><span class="l">四川海底捞餐饮股份有限公司</span><span class="red01 r">￥3500~4000</span></div>-->
+<!--<p>北京 | 海定区</p>-->
+<!--</li>-->
+<!--<li class="bb pt2 pb2 pl2 pr2">-->
+<!--<p><a href="#">服务员</a></p>-->
+<!--<div class="clearfix"><span class="l">四川海底捞餐饮股份有限公司</span><span class="red01 r">￥3500~4000</span></div>-->
+<!--<p>北京 | 海定区</p>-->
+<!--</li>-->
+<!--<li class="bb pt2 pb2 pl2 pr2">-->
+<!--<p><a href="#">服务员</a></p>-->
+<!--<div class="clearfix"><span class="l">四川海底捞餐饮股份有限公司</span><span class="red01 r">￥3500~4000</span></div>-->
+<!--<p>北京 | 海定区</p>-->
+<!--</li>-->
+<!--<li class="bb pt2 pb2 pl2 pr2">-->
+<!--<p><a href="#">服务员</a></p>-->
+<!--<div class="clearfix"><span class="l">四川海底捞餐饮股份有限公司</span><span class="red01 r">￥3500~4000</span></div>-->
+<!--<p>北京 | 海定区</p>-->
+<!--</li>-->
+<!--<li class="bb pt2 pb2 pl2 pr2">-->
+<!--<p><a href="#">服务员</a></p>-->
+<!--<div class="clearfix"><span class="l">四川海底捞餐饮股份有限公司</span><span class="red01 r">￥3500~4000</span></div>-->
+<!--<p>北京 | 海定区</p>-->
+<!--</li>-->
+<!--</ul>     -->
+<!--</article>-->

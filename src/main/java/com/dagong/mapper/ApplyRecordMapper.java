@@ -1,6 +1,7 @@
 package com.dagong.mapper;
 
 import com.dagong.pojo.ApplyRecord;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface ApplyRecordMapper {
 
     ApplyRecord selectByPrimaryKey(String id);
 
-    List<ApplyRecord> selectByUserId(String userId, Integer status);
+    List<ApplyRecord> selectByUserId(@Param("userId") String userId, @Param("status") Integer status);
 
     int updateByPrimaryKeySelective(ApplyRecord record);
 

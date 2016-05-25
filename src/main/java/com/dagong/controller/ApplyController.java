@@ -1,11 +1,9 @@
 package com.dagong.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.rocketmq.client.exception.MQBrokerException;
 import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.remoting.exception.RemotingException;
 import com.dagong.service.ApplyService;
-import com.dagong.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

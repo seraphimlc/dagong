@@ -4,11 +4,13 @@ import com.dagong.mapper.JobTypeMapper;
 import com.dagong.pojo.User;
 import com.dagong.service.FollowService;
 import com.dagong.service.UserService;
+import com.dagong.user.vo.UserVO;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -50,9 +52,13 @@ public class UserController {
     }
 
     @RequestMapping("/userProfile.do")
-    public String profile(@CookieValue("userId") String userId) {
+    public ModelAndView profile(@CookieValue("userId") String userId) {
         System.out.println("userId = " + userId);
-        return "/view/profile";
+        UserVO userVO = userService.getUserById(userId);
+        if(userVO!=null){
+            new ModelAndView("/view/profile","user",userVO);
+        }
+        return new ModelAndView("/view/profile");
     }
 
 

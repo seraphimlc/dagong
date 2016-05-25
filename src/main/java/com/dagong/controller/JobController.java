@@ -1,7 +1,6 @@
 
 package com.dagong.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.dagong.job.vo.JobVO;
 import com.dagong.service.ApplyService;
 import com.dagong.service.JobService;
@@ -12,10 +11,10 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 
 @Controller
@@ -29,28 +28,31 @@ public class JobController {
     private UserService userService;
 
 
-    @RequestMapping("recommand.do")
-    @ResponseBody
-    public String listUserJob(@CookieValue("userId") String userId, Map<String, Object> model) {
+    @RequestMapping("user.do")
+//    @ResponseBody
+    public ModelAndView listUserJob(@CookieValue("userId") String userId ) {
         if (StringUtils.isBlank(userId)) {
             return null;
         }
         List<JobVO> recommendFromUser = jobService.searchJob(userId);
         if (recommendFromUser != null && !recommendFromUser.isEmpty()) {
-            return JSON.toJSON(recommendFromUser).toString();
+
+            return new ModelAndView("view/recommand","jobList",recommendFromUser);
+
         }
-        return null;
+
+        return new ModelAndView("view/recommand");
     }
 
 
     @RequestMapping("detail.do")
     @ResponseBody
-    public String detail(@RequestParam("jobId") String jobId, Map<String, Object> model) {
+    public ModelAndView detail(@RequestParam("jobId") String jobId) {
         JobVO job = jobService.getJob(jobId);
         if (job != null) {
-            return JSON.toJSON(job).toString();
+            return new ModelAndView("view/jobDetail","job",job);
         }
-        return null;
+        return new ModelAndView("view/jobDetail");
     }
 
 

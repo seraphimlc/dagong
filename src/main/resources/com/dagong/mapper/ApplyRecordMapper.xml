@@ -19,6 +19,18 @@
     from applyrecord
     where id = #{id,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectByUserId" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from applyrecord
+    where user_id = #{userId,jdbcType=VARCHAR}
+    <if test="status >0" >
+      and status = #{status,jdbcType=INTEGER}
+    </if>
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from applyrecord
     where id = #{id,jdbcType=VARCHAR}
@@ -114,17 +126,4 @@
       update_time = #{updateTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-
-
-  <select id="selectByUserId" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List"/>
-    from applyrecord
-    where user_id = #{userId,jdbcType=VARCHAR}
-    <if test="status > 0">
-      and status= #{status,jdbcType=INTEGER}
-    </if>
-    order by update_time desc
-  </select>
-
 </mapper>

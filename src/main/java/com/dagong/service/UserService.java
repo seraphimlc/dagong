@@ -13,7 +13,7 @@ import com.dagong.user.vo.WechatUserVO;
 import com.dagong.util.BeanValidator;
 import com.dagong.util.IdGenerator;
 import com.dagong.util.ListUtil;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
@@ -30,7 +30,8 @@ public class UserService {
     private static int MAX_WANT_ENVIRONMENT = 5;
     private static int VALIDATE_CODE_LENGTH = 4;
     private static int VALIDATE_CODE_EXPIRED_TIME = 1000 * 60;
-    private static Jedis jedisClient = new Jedis("172.16.54.144", 6379);
+    @Resource
+    private Jedis jedis;
     private static String MESSAGE_TOPIC = "user";
 
     @Resource
@@ -177,9 +178,9 @@ public class UserService {
     }
 
     public boolean validateCode(String phoneNumber, String validateCode) {
-        String cacheCode = jedisClient.get(phoneNumber);
+        String cacheCode = jedis.get(phoneNumber);
         if (StringUtils.isNotBlank(cacheCode)) {
-            jedisClient.del(phoneNumber);
+            jedis.del(phoneNumber);
             if (validateCode.equals(cacheCode)) {
                 return true;
             } else {
@@ -192,22 +193,24 @@ public class UserService {
 
     public String generateCookieForUser(String userId) {
         String cookieValue = idGenerator.generateRandom("user");
-        jedisClient.setex(cookieValue, 24 * 60 * 60, userId);
+        jedis.setnx(cookieValue, userId);
+        jedis.expire(cookieValue, 24 * 60 * 60);
         return cookieValue;
     }
 
     public String getUserIdFromCookie(String cookieValue) {
-        return jedisClient.get(cookieValue);
+        String userId = jedis.get(cookieValue);
+        return userId;
     }
 
     public boolean sendValidatePhoneNumberCode(String phoneNumber) {
-        String validateCode = jedisClient.get(phoneNumber);
+        String validateCode = jedis.get(phoneNumber);
         if (StringUtils.isNotEmpty(validateCode)) {
             return true;
 
         }
         validateCode = IdGenerator.generateValidateCode(VALIDATE_CODE_LENGTH);
-        jedisClient.setex(phoneNumber, VALIDATE_CODE_EXPIRED_TIME, validateCode);
+        jedis.setex(phoneNumber, VALIDATE_CODE_EXPIRED_TIME, validateCode);
         try {
             sendMessage(phoneNumber, getMessageFromTemplate(validateCode));
         } catch (Exception e) {

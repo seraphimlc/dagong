@@ -28,7 +28,7 @@ public class JVMInfoToolkit {
     public void test() throws Exception {
         String a = new String("刘畅");
         System.out.println("a = " + a);
-        companyService.createCompany(a, "");
+//        companyService.createCompany(a, "");
 //        readFromExcel();
 //        testSendValidateCode();
 //        testRegister();

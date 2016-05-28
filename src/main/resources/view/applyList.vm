@@ -1,0 +1,92 @@
+<div class="wrap">
+    <article class="mt2 bgf bb b_t t_c">
+        <ul class="clearfix tab_title">
+            <li class="l"><a href="javascript:;" class="b_r on">全部</a></li>
+            <li class="l"><a href="javascript:;" class="b_r">已阅</a></li>
+            <li class="l"><a href="javascript:;" class="b_r">未阅</a></li>
+            <li class="l"><a href="javascript:;" class="b_r">通过</a></li>
+            <li class="l"><a href="javascript:;">未通过</a></li>
+        </ul>
+    </article>
+    <article class="bgf c_9 mt2 b_t tab_box">
+        #if(${allList})
+            <ul>
+                #foreach($element in $allList)
+                <li class="bb pt2 pb2 pl2 pr2 tg_bg">
+                    <p><a href="#">$!{element.jobVO.jobName}</a></p>
+                    <div class="clearfix"><span class="l">$!{element.jobVO.companyName}</span><span class="red01 r">￥$!{element.jobVO.startSalary}~$!{element.jobVO.endSalary}</span>
+                    </div>
+                    <p>$!{element.jobVO.address}</p>
+                </li>
+                #end
+            </ul>
+        #else
+            无应聘记录.
+        #end
+    </article>
+    <article class="bgf c_9 mt2 b_t tab_box d_n">
+        #if(${readList})
+            <ul>
+                #foreach($element in $readList)
+                    <li class="bb pt2 pb2 pl2 pr2 tg_bg">
+                        <p><a href="#">$!{element.jobVO.jobName}</a></p>
+                        <div class="clearfix"><span class="l">$!{element.jobVO.companyName}</span><span class="red01 r">￥$!{element.jobVO.startSalary}~$!{element.jobVO.endSalary}</span>
+                        </div>
+                        <p>$!{element.jobVO.address}</p>
+                    </li>
+                #end
+            </ul>
+        #else
+            无已阅应聘记录.
+        #end
+    </article>
+    <article class="bgf c_9 mt2 b_t tab_box d_n">
+        #if(${unReadList})
+            <ul>
+                #foreach($element in $unReadList)
+                    <li class="bb pt2 pb2 pl2 pr2 tg_bg">
+                        <p><a href="#">$!{element.jobVO.jobName}</a></p>
+                        <div class="clearfix"><span class="l">$!{element.jobVO.companyName}</span><span class="red01 r">￥$!{element.jobVO.startSalary}~$!{element.jobVO.endSalary}</span>
+                        </div>
+                        <p>$!{element.jobVO.address}</p>
+                    </li>
+                #end
+            </ul>
+        #else
+            无未阅应聘记录.
+        #end
+    </article>
+    <article class="bgf c_9 mt2 b_t tab_box d_n">
+        #if(${passList})
+            <ul>
+                #foreach($element in $passList)
+                    <li class="bb pt2 pb2 pl2 pr2 tg_bg">
+                        <p><a href="#">$!{element.jobVO.jobName}</a></p>
+                        <div class="clearfix"><span class="l">$!{element.jobVO.companyName}</span><span class="red01 r">￥$!{element.jobVO.startSalary}~$!{element.jobVO.endSalary}</span>
+                        </div>
+                        <p>$!{element.jobVO.address}</p>
+                    </li>
+                #end
+            </ul>
+        #else
+            无未阅应聘记录.
+        #end
+    </article>
+    <article class="bgf c_9 mt2 b_t tab_box d_n">
+        #if(${unPassList})
+            <ul>
+                #foreach($element in $unPassList)
+                    <li class="bb pt2 pb2 pl2 pr2 tg_bg">
+                        <p><a href="#">$!{element.jobVO.jobName}</a></p>
+                        <div class="clearfix"><span class="l">$!{element.jobVO.companyName}</span><span class="red01 r">￥$!{element.jobVO.startSalary}~$!{element.jobVO.endSalary}</span>
+                        </div>
+                        <p>$!{element.jobVO.address}</p>
+                    </li>
+                #end
+            </ul>
+        #else
+            无未阅应聘记录.
+        #end
+    </article>
+</div>
+<script src="js/tab.js"></script>

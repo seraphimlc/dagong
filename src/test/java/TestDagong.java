@@ -14,7 +14,6 @@ import com.alibaba.rocketmq.remoting.exception.RemotingException;
 import com.dagong.mapper.JobMapper;
 import com.dagong.mapper.JobTypeMapper;
 import com.dagong.mapper.UserMapper;
-import com.dagong.mq.job.CreateJobMessageProcessor;
 import com.dagong.pojo.Company;
 import com.dagong.pojo.DegreeType;
 import com.dagong.pojo.Job;
@@ -31,7 +30,6 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
-import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -86,8 +84,6 @@ public class TestDagong {
     private UserMapper userMapper;
     @Autowired
     private IdGenerator idGenerator;
-    @Autowired
-    private CreateJobMessageProcessor createJobMessageProcessor;
 
     private Map<String, JobType> jobTypeMap = new HashMap<>();
 
@@ -154,13 +150,13 @@ public class TestDagong {
 
         value = getValue(row, 7);
         Company company = companyMap.get(value);
-        if (company == null) {
-            company = companyService.getCompanyByName(value);
-            if (company == null) {
-                company = companyService.createCompany(value, "");
-            }
-            companyMap.put(company.getName(), company);
-        }
+//        if (company == null) {
+//            company = companyService.getCompanyByName(value);
+//            if (company == null) {
+//                company = companyService.createCompany(value, "");
+//            }
+//            companyMap.put(company.getName(), company);
+//        }
         job.setCompanyId(company.getId());
         job.setJobName(getValue(row, 8));
         job.setContractor(getValue(row, 9));

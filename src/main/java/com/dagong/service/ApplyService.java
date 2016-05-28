@@ -1,6 +1,7 @@
 package com.dagong.service;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.alibaba.dubbo.common.json.ParseException;
 import com.alibaba.rocketmq.client.exception.MQBrokerException;
 import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.remoting.exception.RemotingException;
@@ -13,11 +14,11 @@ import com.dagong.pojo.ApplyRecord;
 import com.dagong.util.IdGenerator;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +62,7 @@ public class ApplyService {
         applyRecordMapper.insertSelective(applyRecord);
         applyLogMapper.insertSelective(applyLog);
 
-        Map<String, Object> msgMap = new HashedMap();
+        Map<String, Object> msgMap = new HashMap();
         msgMap.put("userId", userId);
         msgMap.put("jobId", jobId);
         msgMap.put("companyId", companyId);
@@ -78,7 +79,13 @@ public class ApplyService {
         }
         PageHelper.startPage(page, PAGE_SIZE);
         Page<ApplyRecord> pages = (Page<ApplyRecord>) applyRecordMapper.selectByUserId(userId, status);
-
+        pages.forEach(applyRecord -> {
+            try {
+                applyRecord.setJobVO((JobVO) JSON.parse(applyRecord.getDescription(),JobVO.class));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
         return pages;
     }
 

@@ -15,12 +15,20 @@
     <ul class="pt5">
         <li class="clearfix"><a href="#" class="l c_f"><img src="/images/left_14.png" class="v_m" width="25"/>
             <span class="v_m pl2">我的简历</span></a></li>
-        <li class="clearfix pt2"><a href="#" class="l c_f"><img src="/images/left_17.png" class="v_m"
-                                                                width="25"/> <span
-                class="v_m pl2">我的应聘</span></a><span class="r left_span dnb">22</span></li>
-        <li class="clearfix pt2"><a href="#" class="l c_f"><img src="/images/left_19.png" class="v_m"
-                                                                width="25"/> <span
-                class="v_m pl2">我的关注</span></a><span class="r left_span left_span01 dnb">5</span></li>
+
+        <li class="clearfix pt2">
+            <a href="javascript:void(0);" onclick="myApply();" class="l c_f">
+                <img src="/images/left_17.png" class="v_m" width="25"/>
+                <span class="v_m pl2">我的应聘</span>
+            </a><span class="r left_span dnb">23</span>
+        </li>
+
+        <li class="clearfix pt2">
+            <a href="javascript:void(0);" onclick="myFollow();" class="l c_f">
+                <img src="/images/left_19.png" class="v_m" width="25"/>
+                <span class="v_m pl2">我的关注</span></a>
+            <span class="r left_span left_span01 dnb">5</span></li>
+
         <li class="clearfix pt2"><a href="#" class="l c_f"><img src="/images/left_21.png" class="v_m"
                                                                 width="25"/> <span
                 class="v_m pl2">我的消息</span></a><span class="r left_span left_span02 dnb">5</span></li>

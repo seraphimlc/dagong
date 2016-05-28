@@ -1,12 +1,11 @@
 package com.dagong.mq.job;
 
 import com.alibaba.rocketmq.common.message.MessageExt;
+import com.dagong.company.vo.CompanyVO;
 import com.dagong.mq.MessageProcessor;
-import com.dagong.pojo.Company;
 import com.dagong.pojo.Job;
 import com.dagong.service.CompanyService;
 import com.dagong.service.JobService;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
@@ -40,7 +39,7 @@ public class CreateJobMessageProcessor extends MessageProcessor {
                     return;
                 }
                 String companyId = job.getCompanyId();
-                Company company = companyService.getCompanyById(companyId);
+                CompanyVO company = companyService.getCompanyById(companyId);
                 job.setCompanyName(company.getName());
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();

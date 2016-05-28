@@ -1,5 +1,7 @@
 package com.dagong.pojo;
 
+import com.dagong.job.vo.JobVO;
+
 public class ApplyRecord {
     private String id;
 
@@ -14,6 +16,16 @@ public class ApplyRecord {
     private String description;
 
     private Long updateTime;
+
+    private JobVO jobVO;
+
+    public JobVO getJobVO() {
+        return jobVO;
+    }
+
+    public void setJobVO(JobVO jobVO) {
+        this.jobVO = jobVO;
+    }
 
     public String getId() {
         return id;

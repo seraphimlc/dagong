@@ -136,18 +136,18 @@
                <!--selectByExampleQueryId="false">-->
 
         <!--</table>-->
-        <!--<table tableName="followjob" domainObjectName="FollowJob"-->
-               <!--enableCountByExample="false" enableUpdateByExample="false"-->
-               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
-               <!--selectByExampleQueryId="false">-->
+        <table tableName="followjob" domainObjectName="FollowJob"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
 
-        <!--</table>-->
-        <!--<table tableName="followcompany" domainObjectName="FollowCompany"-->
-               <!--enableCountByExample="false" enableUpdateByExample="false"-->
-               <!--enableDeleteByExample="false" enableSelectByExample="false"-->
-               <!--selectByExampleQueryId="false">-->
+        </table>
+        <table tableName="followcompany" domainObjectName="FollowCompany"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
 
-        <!--</table>-->
+        </table>
         <!--<table tableName="contact" domainObjectName="Contact"-->
                <!--enableCountByExample="false" enableUpdateByExample="false"-->
                <!--enableDeleteByExample="false" enableSelectByExample="false"-->

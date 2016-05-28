@@ -5,7 +5,7 @@ import com.dagong.job.vo.JobVO;
 import com.dagong.service.ApplyService;
 import com.dagong.service.JobService;
 import com.dagong.service.UserService;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +28,7 @@ public class JobController {
     private UserService userService;
 
 
-    @RequestMapping("user.do")
+    @RequestMapping("recommend.do")
 //    @ResponseBody
     public ModelAndView listUserJob(@CookieValue("userId") String userId ) {
         if (StringUtils.isBlank(userId)) {

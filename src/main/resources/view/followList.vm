@@ -1,0 +1,41 @@
+<div class="wrap">
+    <article class="mt2 bgf bb b_t t_c">
+        <ul class="clearfix tab_title">
+            <li class="l"><a href="javascript:;" class="b_r on">关注的职位</a></li>
+            <li class="l"><a href="javascript:;" class="b_r">关注的企业</a></li>
+        </ul>
+    </article>
+    <article class="bgf c_9 mt2 b_t tab_box">
+        #if(${jobList})
+            <ul>
+                #foreach($element in $jobList)
+                <li class="bb pt2 pb2 pl2 pr2 tg_bg">
+                    <p><a href="#">$!{element.jobVO.jobName}</a></p>
+                    <div class="clearfix"><span class="l">$!{element.jobVO.companyName}</span><span class="red01 r">￥$!{element.jobVO.startSalary}~$!{element.jobVO.endSalary}</span>
+                    </div>
+                    <p>$!{element.jobVO.address}</p>
+                </li>
+                #end
+            </ul>
+        #else
+            无关注的职位.
+        #end
+    </article>
+    <article class="bgf c_9 mt2 b_t tab_box d_n">
+        #if(${companyList})
+            <ul>
+                #foreach($element in $companyList)
+                    <li class="bb pt2 pb2 pl2 pr2 tg_bg">
+                        <p><a href="#">$!{element.company.jobName}</a></p>
+                        <div class="clearfix"><span class="l">$!{element.jobVO.companyName}</span><span class="red01 r">￥$!{element.jobVO.startSalary}~$!{element.jobVO.endSalary}</span>
+                        </div>
+                        <p>$!{element.jobVO.address}</p>
+                    </li>
+                #end
+            </ul>
+        #else
+            无关注的企业.
+        #end
+    </article>
+</div>
+<script src="js/tab.js"></script>

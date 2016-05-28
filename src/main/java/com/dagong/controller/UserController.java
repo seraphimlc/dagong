@@ -5,7 +5,7 @@ import com.dagong.pojo.User;
 import com.dagong.service.FollowService;
 import com.dagong.service.UserService;
 import com.dagong.user.vo.UserVO;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;

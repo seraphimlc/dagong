@@ -1,17 +1,15 @@
 package com.dagong.service;
 
+import com.dagong.company.vo.CompanyVO;
+import com.dagong.job.vo.JobVO;
 import com.dagong.mapper.CompanyUserMapper;
 import com.dagong.mapper.FollowCompanyMapper;
 import com.dagong.mapper.FollowJobMapper;
 import com.dagong.mapper.FollowUserMapper;
 import com.dagong.mq.SendMessageService;
-import com.dagong.pojo.CompanyUser;
-import com.dagong.pojo.FollowCompany;
-import com.dagong.pojo.FollowJob;
-import com.dagong.pojo.FollowUser;
+import com.dagong.pojo.*;
 import com.dagong.util.IdGenerator;
 import com.dagong.util.ListUtil;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
@@ -36,12 +34,22 @@ public class FollowService {
     private IdGenerator idGenerator;
 
     @Resource
+    private UserService userService;
+    @Resource
+    private JobService jobService;
+    @Resource
+    private CompanyService companyService;
+
+    @Resource
     private SendMessageService sendMessageService;
 
     public boolean followCompany(String userId, String companyId) {
         List<FollowCompany> followCompanies = getFollowCompany(userId, companyId);
         if (ListUtil.isEmpty(followCompanies)) {
             FollowCompany followCompany = createFollowCompany(userId, companyId);
+            if(followCompany==null){
+                return false;
+            }
             followCompanyMapper.insert(followCompany);
             return true;
         }
@@ -49,14 +57,19 @@ public class FollowService {
     }
 
     private FollowCompany createFollowCompany(String userId, String companyId) {
+
+        CompanyVO company = companyService.getCompanyById(companyId);
         FollowCompany followCompany = new FollowCompany();
         followCompany.setCompanyId(idGenerator.generate(FollowCompany.class.getSimpleName()));
         followCompany.setCompanyId(companyId);
         followCompany.setUserId(userId);
+        followCompany.setCompany(company);
+
         return followCompany;
     }
 
     public List<FollowCompany> getFollowCompany(String userId, String companyId) {
+
         FollowCompany followCompany = new FollowCompany();
         followCompany.setUserId(userId);
         followCompany.setCompanyId(companyId);
@@ -82,17 +95,31 @@ public class FollowService {
         List<FollowJob> followJobs = getFollowJob(userId, jobId);
         if (ListUtil.isEmpty(followJobs)) {
             FollowJob followJob = createFollowJob(userId, jobId);
+            if(followJob==null){
+                return false;
+            }
             followJobMapper.insertSelective(followJob);
+            return true;
         }
-        return true;
+        return false;
     }
 
-    public Page<FollowJob> getFollowJobForUser(String userId, int pageNo, int pageSize) {
+
+    public List<FollowCompany> getFollowCompanyForUser(String userId, int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        FollowCompany followCompany = new FollowCompany();
+        followCompany.setUserId(userId);
+        return followCompanyMapper.getListSelective(followCompany);
+
+    }
+
+
+    public List<FollowJob> getFollowJobForUser(String userId, int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
         FollowJob followJob = new FollowJob();
         followJob.setUserId(userId);
-        Page<FollowJob> page = (Page<FollowJob>) followJobMapper.getListSelective(followJob);
-        return page;
+        return  followJobMapper.getListSelective(followJob);
+
     }
 
     public boolean dismissFollowJob(String followId, String userId, String jobId) {
@@ -108,9 +135,14 @@ public class FollowService {
     }
 
     private FollowJob createFollowJob(String userId, String jobId) {
+        JobVO jobVO =jobService.getJob(jobId);
+        if(jobVO==null){
+            return null;
+        }
         FollowJob followJob = new FollowJob();
         followJob.setJobId(jobId);
         followJob.setUserId(userId);
+        followJob.setJobVO(jobVO);
         followJob.setId(idGenerator.generate(FollowJob.class.getSimpleName()));
         return followJob;
     }

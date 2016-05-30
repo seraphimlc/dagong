@@ -1,23 +1,72 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dagong.mapper.FollowJobMapper">
     <resultMap id="BaseResultMap" type="com.dagong.pojo.FollowJob">
-        <id column="id" property="id" jdbcType="VARCHAR"/>
-        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
-        <result column="job_id" property="jobId" jdbcType="VARCHAR"/>
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="job_id" jdbcType="VARCHAR" property="jobId"/>
+        <result column="info" jdbcType="VARCHAR" property="info"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, user_id, job_id
+    id, user_id, job_id, info
   </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from followjob
         where id = #{id,jdbcType=VARCHAR}
     </select>
-
-
-    <select id="getListSelective" resultMap="BaseResultMap" parameterType="com.dagong.pojo.FollowJob">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from followjob
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insertSelective" parameterType="com.dagong.pojo.FollowJob">
+        insert into followjob
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="jobId != null">
+                job_id,
+            </if>
+            <if test="info != null">
+                info,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="jobId != null">
+                #{jobId,jdbcType=VARCHAR},
+            </if>
+            <if test="info != null">
+                #{info,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.dagong.pojo.FollowJob">
+        update followjob
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="jobId != null">
+                job_id = #{jobId,jdbcType=VARCHAR},
+            </if>
+            <if test="info != null">
+                info = #{info,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <select id="getListSelective" parameterType="com.dagong.pojo.FollowJob" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from followjob
@@ -37,57 +86,4 @@
     </select>
 
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from followjob
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-    <insert id="insert" parameterType="com.dagong.pojo.FollowJob">
-    insert into followjob (id, user_id, job_id
-      )
-    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{jobId,jdbcType=VARCHAR}
-      )
-  </insert>
-    <insert id="insertSelective" parameterType="com.dagong.pojo.FollowJob">
-        insert into followjob
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="userId != null">
-                user_id,
-            </if>
-            <if test="jobId != null">
-                job_id,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=VARCHAR},
-            </if>
-            <if test="userId != null">
-                #{userId,jdbcType=VARCHAR},
-            </if>
-            <if test="jobId != null">
-                #{jobId,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.dagong.pojo.FollowJob">
-        update followjob
-        <set>
-            <if test="userId != null">
-                user_id = #{userId,jdbcType=VARCHAR},
-            </if>
-            <if test="jobId != null">
-                job_id = #{jobId,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where id = #{id,jdbcType=VARCHAR}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.dagong.pojo.FollowJob">
-    update followjob
-    set user_id = #{userId,jdbcType=VARCHAR},
-      job_id = #{jobId,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
 </mapper>

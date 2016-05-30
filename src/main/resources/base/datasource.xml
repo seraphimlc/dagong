@@ -67,9 +67,10 @@
         <property name="connectString"
                   value="172.16.54.144:2181"/>
     </bean>
-    <bean class="redis.clients.jedis.Jedis">
-        <constructor-arg index="0" type="java.lang.String" value="172.16.54.144"/>
-        <constructor-arg index="1" type="int" value="6379"/>
+
+    <bean id="redisConfiguration" class="com.dagong.util.ServiceConfiguration">
+        <property name="ip" value="172.16.54.144"/>
+        <property name="port" value="6379"/>
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>

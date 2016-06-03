@@ -34,6 +34,6 @@ public class TestDubbo {
 
     @Test
     public void test() {
-        userService.test();
+
     }
 }

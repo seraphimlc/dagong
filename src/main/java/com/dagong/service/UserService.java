@@ -6,7 +6,6 @@ import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.remoting.exception.RemotingException;
 import com.dagong.mapper.*;
 import com.dagong.pojo.*;
-import com.dagong.user.TestUserClient;
 import com.dagong.user.UserClient;
 import com.dagong.user.vo.UserVO;
 import com.dagong.user.vo.WechatUserVO;
@@ -31,7 +30,7 @@ public class UserService {
     private static int VALIDATE_CODE_LENGTH = 4;
     private static int VALIDATE_CODE_EXPIRED_TIME = 1000 * 60;
     @Resource
-    private Jedis jedis;
+    private RedisService redisService;
     private static String MESSAGE_TOPIC = "user";
 
     @Resource
@@ -56,17 +55,12 @@ public class UserService {
 //    private SendMessageService sendMessageService;
     @Reference(version = "1.0.0")
     private UserClient userClient;
-    @Reference(version = "1.0.0")
-    private TestUserClient testUserClient;
 
 
     @Resource
     private IdGenerator idGenerator;
 
 
-    public void test(){
-        testUserClient.test();
-    }
 
 
     public UserVO getUserById(String userId) {
@@ -178,9 +172,11 @@ public class UserService {
     }
 
     public boolean validateCode(String phoneNumber, String validateCode) {
+        Jedis jedis = redisService.getJedis();
         String cacheCode = jedis.get(phoneNumber);
         if (StringUtils.isNotBlank(cacheCode)) {
             jedis.del(phoneNumber);
+            jedis.close();;
             if (validateCode.equals(cacheCode)) {
                 return true;
             } else {
@@ -192,18 +188,23 @@ public class UserService {
     }
 
     public String generateCookieForUser(String userId) {
+        Jedis jedis = redisService.getJedis();
         String cookieValue = idGenerator.generateRandom("user");
         jedis.setnx(cookieValue, userId);
         jedis.expire(cookieValue, 24 * 60 * 60);
+        jedis.close();
         return cookieValue;
     }
 
     public String getUserIdFromCookie(String cookieValue) {
+        Jedis jedis = redisService.getJedis();
         String userId = jedis.get(cookieValue);
+        jedis.close();
         return userId;
     }
 
     public boolean sendValidatePhoneNumberCode(String phoneNumber) {
+        Jedis jedis = redisService.getJedis();
         String validateCode = jedis.get(phoneNumber);
         if (StringUtils.isNotEmpty(validateCode)) {
             return true;
@@ -216,6 +217,8 @@ public class UserService {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }finally {
+            jedis.close();
         }
         return true;
     }

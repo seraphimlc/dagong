@@ -207,6 +207,7 @@
             <groupId>com.dagong</groupId>
             <artifactId>company-client</artifactId>
         </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>

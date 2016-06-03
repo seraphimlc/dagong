@@ -72,6 +72,10 @@
         <property name="ip" value="172.16.54.144"/>
         <property name="port" value="6379"/>
     </bean>
+    <bean id="searchConfiguration" class="com.dagong.util.ServiceConfiguration">
+        <property name="ip" value="172.16.54.144"/>
+        <property name="port" value="9300"/>
+    </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>

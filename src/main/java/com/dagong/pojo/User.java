@@ -20,7 +20,7 @@ public class User {
     private String email;
 
     @NotNull
-    private Date brithday;
+    private Date birthday;
 
     @Pattern(regexp="\\d{17}([0-9]|x)")
     private String cardId;
@@ -85,12 +85,12 @@ public class User {
         this.email = email == null ? null : email.trim();
     }
 
-    public Date getBrithday() {
-        return brithday;
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public void setBrithday(Date brithday) {
-        this.brithday = brithday;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getCardId() {

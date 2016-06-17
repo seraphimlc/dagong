@@ -82,7 +82,7 @@ public class UserController {
         User user = new User();
         user.setName(name);
         user.setGender(gender);
-        user.setBrithday(convertStringToDate(birthday));
+        user.setBirthday(convertStringToDate(birthday));
         user.setCardId(cardId);
         user.setPhone(phoneNumber);
         if (!userService.validateCode(phoneNumber, validateCode)) {
